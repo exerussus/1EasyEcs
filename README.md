@@ -3,3 +3,4 @@
 
 Зависимости:    
 https://github.com/Leopotam/ecslite.git    
+https://github.com/exerussus/1Extensions.git    
