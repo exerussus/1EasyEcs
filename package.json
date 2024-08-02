@@ -4,7 +4,10 @@
   "displayName": "1EasyEcs",
   "description": "Кастомный движок с дополнительными инструментами для работы с ecs-lite. *** НАХОДИТСЯ В РАННЕЙ СТАДИИ РАЗРАБОТКИ *** \nЗависимости:\nhttps://github.com/Leopotam/ecslite.git\nhttps://github.com/exerussus/1Extensions.git",
   "unity": "2020.3",
-  "dependencies": { },
+  "dependencies": {
+    "com.leopotam.ecslite": "https://github.com/Leopotam/ecslite.git",
+    "com.exerussus.1extensions": "https://github.com/exerussus/1Extensions.git"
+  },
   "keywords": [
     "leoecslite",
     "leoecs",
