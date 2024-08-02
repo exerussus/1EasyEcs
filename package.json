@@ -1,0 +1,12 @@
+{
+  "name": "com.exerussus.1easyecs",
+  "version": "1.0.0",
+  "displayName": "1EasyEcs",
+  "description": "Кастомный движок с дополнительными инструментами для работы с ecs-lite. *** НАХОДИТСЯ В РАННЕЙ СТАДИИ РАЗРАБОТКИ ***",
+  "unity": "2019.1",
+  "dependencies": { }
+  "author": {
+    "name": "Exerussus",
+    "email": "solovyov.production@gmail.com"
+  }
+}
