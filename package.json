@@ -5,8 +5,8 @@
   "description": "Кастомный движок с дополнительными инструментами для работы с ecs-lite. *** НАХОДИТСЯ В РАННЕЙ СТАДИИ РАЗРАБОТКИ *** \nЗависимости:\nhttps://github.com/Leopotam/ecslite.git\nhttps://github.com/exerussus/1Extensions.git",
   "unity": "2020.3",
   "dependencies": {
-    "com.leopotam.ecslite": "git+https://github.com/Leopotam/ecslite.git#main",
-    "com.exerussus.1extensions": "git+https://github.com/exerussus/1Extensions.git#main"
+    "com.leopotam.ecslite": "git+https://github.com/Leopotam/ecslite.git#v2024.5.22",
+    "com.exerussus.1extensions": "git+https://github.com/exerussus/1Extensions.git#v1.0.0"
   },
   "keywords": [
     "leoecslite",
