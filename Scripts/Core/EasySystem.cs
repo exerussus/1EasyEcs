@@ -17,6 +17,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected float DeltaTime => _deltaTime;
         protected float TickTime { get; private set; }
         private InitializeType _initializeType;
+        public GameShare GameShare => _gameShare;
 
         public virtual void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
         {
