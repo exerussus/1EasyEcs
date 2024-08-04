@@ -8,13 +8,8 @@ namespace Exerussus._1EasyEcs.Scripts.Core
     [Serializable]
     public class GameShare
     {
-        public GameShare(Dictionary<Type, DataPack> sharedObjects)
-        {
-            _sharedObjects = sharedObjects;
-        }
-
         [SerializeField] private List<string> sharedEcsSystems = new ();
-        private Dictionary<Type, DataPack> _sharedObjects;
+        private Dictionary<Type, DataPack> _sharedObjects = new();
         
         public T GetSharedObject<T>()
         {
@@ -25,6 +20,13 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         public void AddSharedObject<T>(Type type, T sharedObject)
         {
+            sharedEcsSystems.Add(type.Name);
+            _sharedObjects[type] = new DataPack(type, sharedObject);
+        }
+
+        public void AddSharedObject<T>(T sharedObject)
+        {
+            var type = sharedObject.GetType();
             sharedEcsSystems.Add(type.Name);
             _sharedObjects[type] = new DataPack(type, sharedObject);
         }
