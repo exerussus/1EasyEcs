@@ -4,7 +4,7 @@ using Leopotam.EcsLite;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public class Componenter : IGameShareItem
+    public class Componenter
     {
         private EcsWorld _world;
         private Dictionary<Type, IEcsPool> _pools;

@@ -29,11 +29,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _sharedObjects[type] = new DataPack(type, sharedObject);
         }
     }
-
-    public interface IGameShareItem
-    {
-        
-    }
     
     [Serializable]
     public class DataPack
