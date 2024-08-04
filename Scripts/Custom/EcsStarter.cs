@@ -1,4 +1,5 @@
 ﻿using Exerussus._1EasyEcs.Scripts.Core;
+using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using UnityEngine;
 
@@ -24,7 +25,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             
             _world = new EcsWorld();
             _componenter = new Componenter(_world);
-            GameShare.AddSharedObject(_componenter.GetType(), _componenter);
+            GameShare.AddSharedObject(_componenter);
+            GameShare.AddSharedObject(GetSignal());
             
             SetSharingData(GameShare);
             PrepareCoreSystems();
@@ -71,6 +73,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected abstract void SetUpdateSystems(IEcsSystems updateSystems);
         protected abstract void SetTickUpdateSystems(IEcsSystems tickUpdateSystems);
         protected abstract void SetSharingData(GameShare gameShare);
+        protected abstract Signal GetSignal();
 
         private void TryInvokeTick()
         {
