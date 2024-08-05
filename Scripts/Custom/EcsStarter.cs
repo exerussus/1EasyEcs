@@ -18,11 +18,13 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected float _tickTimer;
         public GameShare GameShare { get; } = new();
         private bool _isPreInitialized;
+        private bool _isInitialized;
         
         public void PreInitialize()
         {
             if (_isPreInitialized) return;
             
+            _isPreInitialized = true;
             _world = new EcsWorld();
             _componenter = new Componenter(_world);
             GameShare.AddSharedObject(_componenter);
@@ -59,8 +61,10 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         
         public void Initialize()
         {
+            if (_isInitialized) return;
             if (!_isPreInitialized) PreInitialize();
             
+            _isInitialized = true;
             _coreSystems.Init();
             _initSystems.Init();
             _fixedUpdateSystems.Init();
