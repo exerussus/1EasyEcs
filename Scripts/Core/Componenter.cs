@@ -6,8 +6,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 {
     public class Componenter
     {
-        private EcsWorld _world;
-        private Dictionary<Type, IEcsPool> _pools;
+        private readonly EcsWorld _world;
+        private readonly Dictionary<Type, IEcsPool> _pools;
+        
+        public EcsWorld World => _world;
         
         public Componenter(EcsWorld world)
         {
