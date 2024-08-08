@@ -10,13 +10,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
     {
         #region SerializedFields
         
-        [SerializeField] private int entity;
-        [SerializeField] private bool isAlive = true;
-        [SerializeField] private bool isInitialized;
-        [SerializeField] private int components;
+        [SerializeField, HideInInspector] private int entity;
+        [SerializeField, HideInInspector] private bool isAlive = true;
+        [SerializeField, HideInInspector] private bool isInitialized;
         [SerializeField, HideInInspector] private EcsComponent[] ecsComponents;
-        
-        private bool _isReused;
         
         #endregion
 
@@ -34,6 +31,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         public void Initialize(Componenter componenter, Signal signal)
         {
+            if (isInitialized) return;
             isInitialized = true;
             isAlive = true;
             Componenter = componenter;
@@ -55,7 +53,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             if (!IsAlive) return;
             isAlive = false;
             isInitialized = false;
-            _isReused = true;
             foreach (var ecsComponent in ecsComponents) ecsComponent.Destroy();
             Signal.RegistryRaise(new OnEcsMonoBehaviorStartDestroySignal { EcsMonoBehavior = this });
             ref var destroyingData = ref Componenter.AddOrGet<OnDestroyData>(entity);
@@ -71,18 +68,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             gameObject.SetActive(!gameObject.activeSelf);
         }
 
-        #endregion
-        
-        #region Editor
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            ecsComponents = GetComponents<EcsComponent>();
-            components = ecsComponents.Length;
-        }
-#endif
-        
         #endregion
     }
 
