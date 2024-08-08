@@ -11,6 +11,17 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             Value = value;
         }
     }
+
+    public struct RigidBody2DData : IEcsComponent
+    {
+        public Rigidbody2D Value;
+    }
+
+    public struct RigidBody3DData : IEcsComponent
+    {
+        public Rigidbody Value;
+    }
+    
     public struct OnDestroyData : IEcsData<GameObject, float>
     {
         public float TimeRemaining;

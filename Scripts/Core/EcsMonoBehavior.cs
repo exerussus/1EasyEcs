@@ -14,6 +14,8 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         [SerializeField, HideInInspector] private bool isAlive = true;
         [SerializeField, HideInInspector] private bool isInitialized;
         [SerializeField, HideInInspector] private EcsComponent[] ecsComponents;
+        [SerializeField, HideInInspector] private Rigidbody2D rb2D;
+        [SerializeField, HideInInspector] private Rigidbody rb3D;
         
         #endregion
 
@@ -39,6 +41,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             entity = Componenter.GetNewEntity();
             ref var transformData = ref Componenter.Add<TransformData>(entity);
             transformData.InitializeValues(transform);
+            TryInitializePhysicalBody();
             foreach (var ecsComponent in ecsComponents) ecsComponent.PreInitialize(entity, Componenter);
             foreach (var ecsComponent in ecsComponents) ecsComponent.Initialize();
             ref var ecsMonoBehData = ref Componenter.Add<EcsMonoBehaviorData>(entity);
@@ -59,6 +62,20 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             destroyingData.InitializeValues(gameObject, delay);
         }
 
+        private void TryInitializePhysicalBody()
+        {
+            if (rb2D != null)
+            {
+                ref var physicalBodyData = ref Componenter.Add<RigidBody2DData>(Entity);
+                physicalBodyData.Value = rb2D;
+            }
+            else if (rb3D != null)
+            {
+                ref var physicalBodyData = ref Componenter.Add<RigidBody3DData>(Entity);
+                physicalBodyData.Value = rb3D;
+            }
+        }
+        
         #endregion
 
         #region Methods
@@ -67,6 +84,21 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         {
             gameObject.SetActive(!gameObject.activeSelf);
         }
+
+        #endregion
+
+        #region Editor
+        
+#if UNITY_EDITOR
+
+        private void OnValidate()
+        {
+            ecsComponents = GetComponents<EcsComponent>();
+            rb2D = GetComponent<Rigidbody2D>();
+            rb3D = GetComponent<Rigidbody>();
+        }
+
+#endif
 
         #endregion
     }
