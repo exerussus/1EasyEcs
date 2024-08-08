@@ -30,7 +30,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _deltaTime = GetCurrentTime();
             _isInitialized = true;
         }
-
         
         private float GetCurrentTime()
         {
