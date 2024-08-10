@@ -2,11 +2,20 @@
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
     /// <summary>
+    /// Команда на уничтожение Entity 
+    /// </summary>
+    public struct CommandKillEntitySignal
+    {
+        public int Entity;
+        public bool Immediately;
+    }
+    
+    /// <summary>
     /// MonoBehaviourView проинициализировался.
     /// </summary>
     public struct OnEcsMonoBehaviorInitializedSignal
     {
-        public EcsMonoBehavior EcsMonoBehavior;
+        public IEcsMonoBehavior EcsMonoBehavior;
     }
     
     /// <summary>
@@ -14,7 +23,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
     /// </summary>
     public struct OnEcsMonoBehaviorStartDestroySignal
     {
-        public EcsMonoBehavior EcsMonoBehavior;
+        public IEcsMonoBehavior EcsMonoBehavior;
     }
     
     /// <summary>
@@ -22,16 +31,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
     /// </summary>
     public struct OnEcsMonoBehaviorDestroyedSignal
     {
-        public EcsMonoBehavior EcsMonoBehavior;
-    }
-    
-    /// <summary>
-    /// Entity потеряло всё здоровье
-    /// </summary>
-    public struct CommandKillEntitySignal
-    {
-        public int Entity;
-        public bool Immediately;
+        public IEcsMonoBehavior EcsMonoBehavior;
     }
 
 }

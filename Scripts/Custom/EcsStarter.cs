@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Custom
 {
-    public abstract class EcsStarter : MonoBehaviour
+    public abstract class EcsStarter<TData> : MonoBehaviour where TData : IEcsComponent
     {
         [SerializeField] private float tickSystemDelay = 1f;
         protected EcsWorld _world;
-        protected Componenter _componenter;
+        protected Componenter<TData> _componenter;
         protected IEcsSystems _coreSystems;
         protected IEcsSystems _initSystems;
         protected IEcsSystems _fixedUpdateSystems;
@@ -26,7 +26,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             
             _isPreInitialized = true;
             _world = new EcsWorld();
-            _componenter = new Componenter(_world);
+            _componenter = new Componenter<TData>(_world);
             GameShare.AddSharedObject(_componenter);
             GameShare.AddSharedObject(GetSignal());
             
@@ -52,7 +52,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         {
             foreach (var system in systems.GetAllSystems())
             {
-                if (system is EasySystem easySystem)
+                if (system is EasySystem<TData> easySystem)
                 {
                     easySystem.PreInit(GameShare, tickSystemDelay, initializeType);
                 }
@@ -102,7 +102,9 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         {
             _fixedUpdateSystems = new EcsSystems(_world, GameShare);
             SetFixedUpdateSystems(_fixedUpdateSystems);
-            _fixedUpdateSystems.Add(new DestroySystem());
+            var destroySystem = new DestroySystem();
+            destroySystem.PreInit(GameShare, tickSystemDelay, InitializeType.FixedUpdate);
+            _fixedUpdateSystems.Add(destroySystem);
         }
         
         private void PrepareUpdateSystems()

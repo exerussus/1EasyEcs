@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public abstract class EasySystem : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem
+    public abstract class EasySystem<TData> : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem where TData : IEcsComponent
     {
         private bool _isInitialized = false;
         private GameShare _gameShare;
         protected EcsWorld World;
-        protected Componenter Componenter;
+        protected Componenter<TData> Componenter;
         private Signal _signal;
         private float _deltaTime;
         protected float DeltaTime => _deltaTime;
@@ -23,7 +23,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         {
             if (_isInitialized) return;
             _gameShare = gameShare;
-            Componenter = _gameShare.GetSharedObject<Componenter>();
+            Componenter = _gameShare.GetSharedObject<Componenter<TData>>();
             _signal = _gameShare.GetSharedObject<Signal>();
             TickTime = tickTime;
             _initializeType = initializeType;
@@ -64,7 +64,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         public void UnsubscribeSignal<T>(Action<T> action) where T : struct
         {
-            _signal.Unsubscribe(action);
+            _signal?.Unsubscribe(action);
         }
 
         public void Init(IEcsSystems systems)

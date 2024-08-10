@@ -78,7 +78,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             }
         }
         
-        public static float GetDistance(this Componenter componenter, int firstEntity, int secondEntity)
+        public static float GetDistance<TData>(this Componenter<TData> componenter, int firstEntity, int secondEntity) where TData : IEcsComponent
         {
             var firstTransform = componenter.Get<TransformData>(firstEntity).Value;
             var secondTransform = componenter.Get<TransformData>(secondEntity).Value;
@@ -86,7 +86,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             return Vector2.Distance(firstTransform.position, secondTransform.position);
         }
 
-        public static bool GetIsDistanceLessThan(this Componenter componenter, int firstEntity, int secondEntity, float distance)
+        public static bool GetIsDistanceLessThan<TData>(this Componenter<TData> componenter, int firstEntity, int secondEntity, float distance) where TData : IEcsComponent
         {
             var firstTransform = componenter.Get<TransformData>(firstEntity).Value;
             var secondTransform = componenter.Get<TransformData>(secondEntity).Value;
@@ -94,7 +94,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             return Vector2.Distance(firstTransform.position, secondTransform.position) > distance;
         }
 
-        public static bool TryGetCloseEntity(this Componenter componenter, int originEntity, EcsFilter lookingFilter, out int foundEntity, out float distance)
+        public static bool TryGetCloseEntity<TData>(this Componenter<TData> componenter, int originEntity, EcsFilter lookingFilter, out int foundEntity, out float distance) where TData : IEcsComponent
         {
             var originTransform = componenter.Get<TransformData>(originEntity).Value;
 
@@ -137,7 +137,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             }
         }
         
-        public static bool TryGetCloseEntity(this Componenter componenter, int originEntity, EcsFilter lookingFilter, out int foundEntity)
+        public static bool TryGetCloseEntity<TData>(this Componenter<TData> componenter, int originEntity, EcsFilter lookingFilter, out int foundEntity) where TData : IEcsComponent
         {
             var originTransform = componenter.Get<TransformData>(originEntity).Value;
 

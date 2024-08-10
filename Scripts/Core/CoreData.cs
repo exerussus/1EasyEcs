@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public struct TransformData : IEcsData<Transform>
+    public struct TransformData : IEcsComponent
     {
         public Transform Value;
         public void InitializeValues(Transform value)
