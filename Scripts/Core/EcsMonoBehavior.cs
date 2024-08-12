@@ -35,6 +35,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         public void Initialize(Componenter<TData> componenter, Signal signal)
         {
             if (isInitialized) return;
+            
             isInitialized = true;
             isAlive = true;
             Componenter = componenter;
