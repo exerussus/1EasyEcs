@@ -14,6 +14,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected IEcsSystems _initSystems;
         protected IEcsSystems _fixedUpdateSystems;
         protected IEcsSystems _updateSystems;
+        protected IEcsSystems _lateUpdateSystems;
         protected IEcsSystems _tickUpdateSystems;
         protected float _tickTimer;
         public GameShare GameShare { get; } = new();
@@ -35,6 +36,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             PrepareInitSystems();
             PrepareFixedUpdateSystems();
             PrepareUpdateSystems();
+            PrepareLateUpdateSystems();
             PrepareTickUpdateSystems();
             DependencyInject();
         }
@@ -45,6 +47,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             InjectSystems(_initSystems);
             InjectSystems(_fixedUpdateSystems, InitializeType.FixedUpdate);
             InjectSystems(_updateSystems, InitializeType.Update);
+            InjectSystems(_lateUpdateSystems, InitializeType.Update);
             InjectSystems(_tickUpdateSystems, InitializeType.Tick);
         }
         
@@ -69,12 +72,14 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _initSystems.Init();
             _fixedUpdateSystems.Init();
             _updateSystems.Init();
+            _lateUpdateSystems.Init();
             _tickUpdateSystems.Init();
         }
         
         protected abstract void SetInitSystems(IEcsSystems initSystems);
         protected abstract void SetFixedUpdateSystems(IEcsSystems fixedUpdateSystems);
         protected abstract void SetUpdateSystems(IEcsSystems updateSystems);
+        protected abstract void SetLateUpdateSystems(IEcsSystems lateUpdateSystems);
         protected abstract void SetTickUpdateSystems(IEcsSystems tickUpdateSystems);
         protected abstract void SetSharingData(GameShare gameShare);
         protected abstract Signal GetSignal();
@@ -113,6 +118,12 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             SetUpdateSystems(_updateSystems);
         }
         
+        private void PrepareLateUpdateSystems()
+        {
+            _lateUpdateSystems = new EcsSystems(_world, GameShare);
+            SetLateUpdateSystems(_lateUpdateSystems);
+        }
+        
         private void PrepareTickUpdateSystems()
         {
             _tickUpdateSystems = new EcsSystems(_world, GameShare);
@@ -124,6 +135,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _coreSystems?.Destroy();
             _initSystems?.Destroy();
             _fixedUpdateSystems?.Destroy();
+            _updateSystems?.Destroy();
+            _lateUpdateSystems?.Destroy();
             _tickUpdateSystems?.Destroy();
         }
 
@@ -136,6 +149,11 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         public void Update()
         {
             _updateSystems?.Run();
+        }
+
+        public void LateUpdate()
+        {
+            _lateUpdateSystems?.Run();
         }
     }
 }
