@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 using Exerussus._1Extensions.SignalSystem;
-using Plugins.Exerussus._1EasyEcs.Scripts.Extensions;
+using Exerussus._1EasyEcs.Scripts.Extensions;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
