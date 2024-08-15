@@ -31,7 +31,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             GameShare.AddSharedObject(_componenter);
             GameShare.AddSharedObject(GetSignal());
             
-            SetSharingData(GameShare);
+            SetSharingData(_world, GameShare);
             PrepareCoreSystems();
             PrepareInitSystems();
             PrepareFixedUpdateSystems();
@@ -81,7 +81,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected abstract void SetUpdateSystems(IEcsSystems updateSystems);
         protected abstract void SetLateUpdateSystems(IEcsSystems lateUpdateSystems);
         protected abstract void SetTickUpdateSystems(IEcsSystems tickUpdateSystems);
-        protected abstract void SetSharingData(GameShare gameShare);
+        protected abstract void SetSharingData(EcsWorld world, GameShare gameShare);
         protected abstract Signal GetSignal();
 
         private void TryInvokeTick()
