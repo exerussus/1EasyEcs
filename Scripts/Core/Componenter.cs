@@ -4,7 +4,7 @@ using Leopotam.EcsLite;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public class Componenter<TData> where TData : IEcsComponent
+    public class Componenter
     {
         private readonly EcsWorld _world;
         private readonly Dictionary<Type, IEcsPool> _pools;
@@ -37,12 +37,12 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _world.DelEntity(entity);
         }
 
-        public EcsWorld.Mask Filter<T>() where T : struct, TData
+        public EcsWorld.Mask Filter<T>() where T : struct, IEcsComponent
         {
             return _world.Filter<T>().Exc<OnDestroyData>();
         }
         
-        public bool TryGetReadOnly<T>(int entity, out T data) where T : struct, TData
+        public bool TryGetReadOnly<T>(int entity, out T data) where T : struct, IEcsComponent
         {
             var type = typeof(T);
             if (!_pools.ContainsKey(type))
@@ -59,7 +59,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             return false;
         }
         
-        public ref T Add<T>(int entity) where T : struct, TData
+        public ref T Add<T>(int entity) where T : struct, IEcsComponent
         {
             var type = typeof(T);
             if (!_pools.ContainsKey(type)) _pools[type] = _world.GetPool<T>();
@@ -68,7 +68,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             return ref ecsPool.Get(entity);
         }    
         
-        public ref T AddOrGet<T>(int entity) where T : struct, TData
+        public ref T AddOrGet<T>(int entity) where T : struct, IEcsComponent
         {
             var type = typeof(T);
             if (!_pools.ContainsKey(type)) _pools[type] = _world.GetPool<T>();
@@ -94,7 +94,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         /// <typeparam name="T1">Первый компонент</typeparam>
         /// <typeparam name="T2">Второй компонент</typeparam>
-        public bool HasAny<T1, T2>(int entity) where T1 : struct, TData where T2 : struct, IEcsComponent
+        public bool HasAny<T1, T2>(int entity) where T1 : struct, IEcsComponent where T2 : struct, IEcsComponent
         {
             var type1 = typeof(T1);
             if (!_pools.ContainsKey(type1)) _pools[type1] = _world.GetPool<T1>();
@@ -113,7 +113,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         /// <typeparam name="T1">Первый компонент</typeparam>
         /// <typeparam name="T2">Второй компонент</typeparam>
-        public bool HasBoth<T1, T2>(int entity) where T1 : struct, TData where T2 : struct, IEcsComponent
+        public bool HasBoth<T1, T2>(int entity) where T1 : struct, IEcsComponent where T2 : struct, IEcsComponent
         {
             var type1 = typeof(T1);
             if (!_pools.ContainsKey(type1)) _pools[type1] = _world.GetPool<T1>();

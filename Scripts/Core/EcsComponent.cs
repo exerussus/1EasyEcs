@@ -5,15 +5,15 @@ using UnityEngine;
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
     [RequireComponent(typeof(IEcsMonoBehavior))]
-    public abstract class EcsComponent<TData> : MonoSignalListener where TData : IEcsComponent
+    public abstract class EcsComponent : MonoSignalListener
     {
         private int _entity;
-        private Componenter<TData> _componenter;
+        private Componenter _componenter;
 
         public int Entity => _entity;
-        public Componenter<TData> Componenter => _componenter;
+        public Componenter Componenter => _componenter;
         
-        public void PreInitialize(int entity, Componenter<TData> componenter)
+        public void PreInitialize(int entity, Componenter componenter)
         {
             _entity = entity;
             _componenter = componenter;

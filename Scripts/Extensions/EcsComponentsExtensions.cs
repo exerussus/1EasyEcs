@@ -7,7 +7,7 @@ namespace Exerussus._1EasyEcs.Scripts.Extensions
 {
     public static class EcsComponentsExtensions
     {
-        public static Vector2 GetVector2Position<TData>(this Componenter<TData> componenter, int entity) where TData : IEcsComponent
+        public static Vector2 GetVector2Position(this Componenter componenter, int entity)
         {
             ref var transformData = ref componenter.Get<TransformData>(entity);
             return transformData.Value.position;

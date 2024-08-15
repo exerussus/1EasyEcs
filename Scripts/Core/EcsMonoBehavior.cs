@@ -7,14 +7,14 @@ using Exerussus._1EasyEcs.Scripts.Extensions;
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
     [SelectionBase]
-    public abstract class EcsMonoBehavior<TData> : MonoBehaviour, IEcsMonoBehavior where TData : IEcsComponent
+    public abstract class EcsMonoBehavior : MonoBehaviour, IEcsMonoBehavior
     {
         #region SerializedFields
         
         [SerializeField, HideInInspector] private int entity;
         [SerializeField, HideInInspector] private bool isAlive = true;
         [SerializeField, HideInInspector] private bool isInitialized;
-        [SerializeField, HideInInspector] private EcsComponent<TData>[] ecsComponents;
+        [SerializeField, HideInInspector] private EcsComponent[] ecsComponents;
         [SerializeField, HideInInspector] private Rigidbody2D rb2D;
         [SerializeField, HideInInspector] private Rigidbody rb3D;
         
@@ -24,7 +24,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         
         public int Entity => entity;
         public bool IsAlive => isAlive;
-        public Componenter<TData> Componenter { get; private set; }
+        public Componenter Componenter { get; private set; }
         public Signal Signal { get; private set; }
         public event Action onInitialized;
 
@@ -32,7 +32,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         #region InitAndDestroy
 
-        public void Initialize(Componenter<TData> componenter, Signal signal)
+        public void Initialize(Componenter componenter, Signal signal)
         {
             if (isInitialized) return;
             
@@ -95,7 +95,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         private void OnValidate()
         {
-            ecsComponents = GetComponents<EcsComponent<TData>>();
+            ecsComponents = GetComponents<EcsComponent>();
             rb2D = GetComponent<Rigidbody2D>();
             rb3D = GetComponent<Rigidbody>();
         }
@@ -108,7 +108,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         
         public interface IEcsComponentPreInitialize
         {
-            public void PreInitialize(int entity, Componenter<TData> componenter);
+            public void PreInitialize(int entity, Componenter componenter);
         }
     
         public interface IEcsComponentInitialize : IEcsComponentPreInitialize

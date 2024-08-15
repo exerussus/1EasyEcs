@@ -11,7 +11,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private bool _isInitialized = false;
         private GameShare _gameShare;
         protected EcsWorld World;
-        protected Componenter<TData> Componenter;
+        protected Componenter Componenter;
         private Signal _signal;
         private float _deltaTime;
         protected float DeltaTime => _deltaTime;
@@ -23,7 +23,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         {
             if (_isInitialized) return;
             _gameShare = gameShare;
-            Componenter = _gameShare.GetSharedObject<Componenter<TData>>();
+            Componenter = _gameShare.GetSharedObject<Componenter>();
             _signal = _gameShare.GetSharedObject<Signal>();
             TickTime = tickTime;
             _initializeType = initializeType;

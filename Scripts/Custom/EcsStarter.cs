@@ -9,7 +9,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
     {
         [SerializeField] private float tickSystemDelay = 1f;
         protected EcsWorld _world;
-        protected Componenter<TData> _componenter;
+        protected Componenter _componenter;
         protected IEcsSystems _coreSystems;
         protected IEcsSystems _initSystems;
         protected IEcsSystems _fixedUpdateSystems;
@@ -27,7 +27,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             
             _isPreInitialized = true;
             _world = new EcsWorld();
-            _componenter = new Componenter<TData>(_world);
+            _componenter = new Componenter(_world);
             GameShare.AddSharedObject(_componenter);
             GameShare.AddSharedObject(GetSignal());
             
