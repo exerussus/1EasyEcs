@@ -55,7 +55,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         {
             foreach (var system in systems.GetAllSystems())
             {
-                if (system is EasySystem<TData> easySystem)
+                if (system is EasySystem easySystem)
                 {
                     easySystem.PreInit(GameShare, tickSystemDelay, initializeType);
                 }

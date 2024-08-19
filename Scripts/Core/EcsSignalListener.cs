@@ -3,7 +3,7 @@ using Leopotam.EcsLite;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public abstract class EcsSignalListener<TData, T1> : EasySystem<TData> where TData : IEcsComponent
+    public abstract class EcsSignalListener<T1> : EasySystem
         where T1 : struct
     {
         public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
@@ -21,7 +21,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T1 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2> : EasySystem
         where T1 : struct
         where T2 : struct
     {
@@ -43,7 +43,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T2 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2, T3> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2, T3> : EasySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -69,7 +69,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T3 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2, T3, T4> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2, T3, T4> : EasySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -99,7 +99,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T4 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2, T3, T4, T5> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2, T3, T4, T5> : EasySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -133,7 +133,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T5 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2, T3, T4, T5, T6> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2, T3, T4, T5, T6> : EasySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -171,7 +171,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T6 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2, T3, T4, T5, T6, T7> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2, T3, T4, T5, T6, T7> : EasySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -213,7 +213,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T7 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2, T3, T4, T5, T6, T7, T8> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2, T3, T4, T5, T6, T7, T8> : EasySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -259,7 +259,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T8 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2, T3, T4, T5, T6, T7, T8, T9> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2, T3, T4, T5, T6, T7, T8, T9> : EasySystem 
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -309,7 +309,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T9 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : EasySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -363,7 +363,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T10 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> : EasySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -421,7 +421,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T11 data);
     }
     
-    public abstract class EcsSignalListener<TData, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> : EasySystem<TData> where TData : IEcsComponent 
+    public abstract class EcsSignalListener<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> : EasySystem 
         where T1 : struct
         where T2 : struct
         where T3 : struct
