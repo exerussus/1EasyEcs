@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Custom
 {
-    public abstract class EcsStarter<TData> : MonoBehaviour where TData : IEcsComponent
+    public abstract class EcsStarter : MonoBehaviour
     {
         [SerializeField] private float tickSystemDelay = 1f;
         protected EcsWorld _world;
@@ -107,9 +107,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         {
             _fixedUpdateSystems = new EcsSystems(_world, GameShare);
             SetFixedUpdateSystems(_fixedUpdateSystems);
-            var destroySystem = new DestroySystem();
-            destroySystem.PreInit(GameShare, tickSystemDelay, InitializeType.FixedUpdate);
-            _fixedUpdateSystems.Add(destroySystem);
         }
         
         private void PrepareUpdateSystems()

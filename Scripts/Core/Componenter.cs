@@ -10,21 +10,11 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private readonly Dictionary<Type, IEcsPool> _pools;
 
         public EcsWorld World => _world;
-        public EcsPool<EcsMonoBehaviorData> EcsMonoBehaviourPool { get; }
-        public EcsPool<TransformData> TransformPool { get; }
-        public EcsPool<OnDestroyData> OnDestroyPool { get; }
-        public EcsPool<RigidBody2DData> RigidBody2DPool { get; }
-        public EcsPool<RigidBody3DData> RigidBody3DPool { get; }
 
         public Componenter(EcsWorld world)
         {
             _world = world;
             _pools = new Dictionary<Type, IEcsPool>();
-            EcsMonoBehaviourPool = world.GetPool<EcsMonoBehaviorData>();
-            TransformPool = world.GetPool<TransformData>();
-            OnDestroyPool = world.GetPool<OnDestroyData>();
-            RigidBody2DPool = world.GetPool<RigidBody2DData>();
-            RigidBody3DPool = world.GetPool<RigidBody3DData>();
         }
 
         public int GetNewEntity()
@@ -39,7 +29,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         public EcsWorld.Mask Filter<T>() where T : struct, IEcsComponent
         {
-            return _world.Filter<T>().Exc<OnDestroyData>();
+            return _world.Filter<T>();
         }
         
         public bool TryGetReadOnly<T>(int entity, out T data) where T : struct, IEcsComponent
