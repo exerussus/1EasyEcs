@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Leopotam.EcsLite;
 using UnityEngine;
 
 
@@ -17,6 +16,12 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             var classPack = _sharedObjects[typeof(T)];
             var sharedObject = classPack.Object;
             return (T)sharedObject;
+        }
+        
+        public void GetSharedObject<T>(ref T sharedObject)
+        {
+            var classPack = _sharedObjects[typeof(T)];
+            sharedObject = (T)classPack.Object;
         }
 
         public void AddSharedObject<T>(Type type, T sharedObject)

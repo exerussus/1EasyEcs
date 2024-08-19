@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public abstract class EasySystem<TData> : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem where TData : IEcsComponent
+    public abstract class EasySystem : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem
     {
         private bool _isInitialized = false;
         private GameShare _gameShare;
