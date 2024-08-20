@@ -1,7 +1,7 @@
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
