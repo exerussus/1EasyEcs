@@ -6,12 +6,13 @@ using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public abstract class EasySystem : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem
+    public abstract class EasySystem<TPooler> : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem
     {
         private bool _isInitialized = false;
         private GameShare _gameShare;
         protected EcsWorld World;
         protected Componenter Componenter;
+        protected TPooler Pooler;
         private Signal _signal;
         private float _deltaTime;
         protected float DeltaTime => _deltaTime;
@@ -23,8 +24,9 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         {
             if (_isInitialized) return;
             _gameShare = gameShare;
-            Componenter = _gameShare.GetSharedObject<Componenter>();
-            _signal = _gameShare.GetSharedObject<Signal>();
+            _gameShare.GetSharedObject(ref Componenter);
+            _gameShare.GetSharedObject(ref _signal);
+            _gameShare.GetSharedObject(ref Pooler);
             TickTime = tickTime;
             _initializeType = initializeType;
             _deltaTime = GetCurrentTime();

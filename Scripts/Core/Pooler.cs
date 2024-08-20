@@ -15,11 +15,9 @@ namespace Exerussus._1EasyEcs.Scripts.Core
     {
         public PoolerModule(EcsWorld world)
         {
-            _world = world;
             _pool = world.GetPool<T>();
         }
 
-        private EcsWorld _world;
         private readonly EcsPool<T> _pool;
 
         public ref T AddOrGet(int entity)

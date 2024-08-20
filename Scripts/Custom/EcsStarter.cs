@@ -5,10 +5,11 @@ using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Custom
 {
-    public abstract class EcsStarter : MonoBehaviour
+    public abstract class EcsStarter<TPooler> : MonoBehaviour
     {
         [SerializeField] private float tickSystemDelay = 1f;
         protected EcsWorld _world;
+        protected TPooler _pooler;
         protected Componenter _componenter;
         protected IEcsSystems _coreSystems;
         protected IEcsSystems _initSystems;
@@ -28,6 +29,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _isPreInitialized = true;
             _world = new EcsWorld();
             _componenter = new Componenter(_world);
+            _pooler = GetPooler(_world);
+            GameShare.AddSharedObject(_pooler);
             GameShare.AddSharedObject(_componenter);
             GameShare.AddSharedObject(GetSignal());
             
@@ -55,7 +58,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         {
             foreach (var system in systems.GetAllSystems())
             {
-                if (system is EasySystem easySystem)
+                if (system is EasySystem<TPooler> easySystem)
                 {
                     easySystem.PreInit(GameShare, tickSystemDelay, initializeType);
                 }
@@ -83,6 +86,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected abstract void SetTickUpdateSystems(IEcsSystems tickUpdateSystems);
         protected abstract void SetSharingData(EcsWorld world, GameShare gameShare);
         protected abstract Signal GetSignal();
+        protected abstract TPooler GetPooler(EcsWorld world);
 
         private void TryInvokeTick()
         {
