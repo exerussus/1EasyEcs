@@ -11,7 +11,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected EcsWorld _world;
         protected TPooler _pooler;
         protected Componenter _componenter;
-        protected IEcsSystems _coreSystems;
         protected IEcsSystems _initSystems;
         protected IEcsSystems _fixedUpdateSystems;
         protected IEcsSystems _updateSystems;
@@ -35,7 +34,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             GameShare.AddSharedObject(GetSignal());
             
             SetSharingData(_world, GameShare);
-            PrepareCoreSystems();
             PrepareInitSystems();
             PrepareFixedUpdateSystems();
             PrepareUpdateSystems();
@@ -46,7 +44,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
 
         private void DependencyInject()
         {
-            InjectSystems(_coreSystems);
             InjectSystems(_initSystems);
             InjectSystems(_fixedUpdateSystems, InitializeType.FixedUpdate);
             InjectSystems(_updateSystems, InitializeType.Update);
@@ -60,7 +57,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             {
                 if (system is EasySystem<TPooler> easySystem)
                 {
-                    easySystem.PreInit(GameShare, tickSystemDelay, initializeType);
+                    easySystem.PreInit(GameShare, tickSystemDelay, _world, initializeType);
                 }
             }
         }
@@ -71,7 +68,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             if (!_isPreInitialized) PreInitialize();
             
             _isInitialized = true;
-            _coreSystems.Init();
             _initSystems.Init();
             _fixedUpdateSystems.Init();
             _updateSystems.Init();
@@ -94,11 +90,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             if (!(_tickTimer >= tickSystemDelay)) return;
             _tickTimer -= tickSystemDelay;
             _tickUpdateSystems?.Run();
-        }
-        
-        private void PrepareCoreSystems()
-        {
-            _coreSystems = new EcsSystems(_world, GameShare);
         }
         
         private void PrepareInitSystems()
@@ -133,7 +124,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         
         protected virtual void OnDestroy() 
         {
-            _coreSystems?.Destroy();
             _initSystems?.Destroy();
             _fixedUpdateSystems?.Destroy();
             _updateSystems?.Destroy();

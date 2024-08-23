@@ -6,9 +6,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
     public abstract class EcsSignalListener<TPooler, T1> : EasySystem<TPooler>
         where T1 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
         }
 
@@ -25,9 +26,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T1 : struct
         where T2 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
         }
@@ -48,9 +50,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T2 : struct
         where T3 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
             SubscribeSignal<T3>(OnSignal);
@@ -75,9 +78,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T3 : struct
         where T4 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
             SubscribeSignal<T3>(OnSignal);
@@ -106,9 +110,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T4 : struct
         where T5 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
             SubscribeSignal<T3>(OnSignal);
@@ -141,9 +146,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T5 : struct
         where T6 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
             SubscribeSignal<T3>(OnSignal);
@@ -180,9 +186,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T6 : struct
         where T7 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
             SubscribeSignal<T3>(OnSignal);
@@ -223,9 +230,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T7 : struct
         where T8 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
             SubscribeSignal<T3>(OnSignal);
@@ -270,9 +278,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T8 : struct
         where T9 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
             SubscribeSignal<T3>(OnSignal);
@@ -321,9 +330,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T9 : struct
         where T10 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
             SubscribeSignal<T3>(OnSignal);
@@ -376,9 +386,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T10 : struct
         where T11 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
             SubscribeSignal<T3>(OnSignal);
@@ -435,9 +446,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where T11 : struct
         where T12 : struct
     {
-        public override void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public override void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
-            base.PreInit(gameShare, tickTime, initializeType);
+            base.PreInit(gameShare, tickTime, world, initializeType);
             SubscribeSignal<T1>(OnSignal);
             SubscribeSignal<T2>(OnSignal);
             SubscribeSignal<T3>(OnSignal);

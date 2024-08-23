@@ -20,7 +20,8 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private InitializeType _initializeType;
         public GameShare GameShare => _gameShare;
 
-        public virtual void PreInit(GameShare gameShare, float tickTime, InitializeType initializeType = InitializeType.None)
+        public virtual void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
+            InitializeType initializeType = InitializeType.None)
         {
             if (_isInitialized) return;
             _gameShare = gameShare;
