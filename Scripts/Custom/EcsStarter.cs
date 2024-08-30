@@ -7,7 +7,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
 {
     public abstract class EcsStarter<TPooler> : MonoBehaviour
     {
-        [SerializeField] private float tickSystemDelay = 1f;
+        [SerializeField] protected float tickSystemDelay = 0.5f;
         protected EcsWorld _world;
         protected TPooler _pooler;
         protected Componenter _componenter;
