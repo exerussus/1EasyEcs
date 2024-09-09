@@ -15,9 +15,11 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected TPooler Pooler;
         private Signal _signal;
         private float _deltaTime;
-        protected float DeltaTime => _deltaTime;
         protected float TickTime { get; private set; }
         private InitializeType _initializeType;
+
+        protected float DeltaTime => _deltaTime;
+        public Signal Signal => _signal;
         public GameShare GameShare => _gameShare;
 
         public virtual void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
