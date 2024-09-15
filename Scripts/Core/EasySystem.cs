@@ -1,5 +1,6 @@
 ﻿
 using System;
+using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected EcsWorld World;
         protected Componenter Componenter;
         protected TPooler Pooler;
+        public string LogPrefix { get; set; }
+        public LogLevel CurrentLogLevel { get; set; }
         private Signal _signal;
         private float _deltaTime;
         protected float TickTime { get; private set; }
@@ -34,6 +37,28 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _initializeType = initializeType;
             _deltaTime = GetCurrentTime();
             _isInitialized = true;
+        }
+
+        protected virtual void Log(Custom.LogType logType, string message)
+        {
+#if UNITY_EDITOR
+            if ((LogLevel)logType > CurrentLogLevel) return;
+            switch (logType)
+            {
+                case Custom.LogType.Error:
+                    Debug.LogError($"{LogPrefix} Error | {message}");
+                    break;
+                case Custom.LogType.Warning:
+                    Debug.LogWarning($"{LogPrefix} Warning | {message}");
+                    break;
+                case Custom.LogType.Info:
+                    Debug.Log($"{LogPrefix} Info | {message}");
+                    break;
+                case Custom.LogType.Trace:
+                    Debug.Log($"{LogPrefix} Trace | {message}");
+                    break;
+            }
+#endif
         }
         
         private float GetCurrentTime()

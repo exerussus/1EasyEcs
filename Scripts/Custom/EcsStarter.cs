@@ -20,11 +20,14 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         public GameShare GameShare { get; } = new();
         private bool _isPreInitialized;
         private bool _isInitialized;
+        public virtual string Name { get; private set; }
+        public virtual LogLevel LogLevel => LogLevel.Trace;
         
         public void PreInitialize()
         {
             if (_isPreInitialized) return;
             
+            Name = GetType().Name;
             _isPreInitialized = true;
             _world = new EcsWorld();
             _componenter = new Componenter(_world);
@@ -57,6 +60,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             {
                 if (system is EasySystem<TPooler> easySystem)
                 {
+                    easySystem.LogPrefix = $"{Name} | {easySystem.GetType().Name} |";
+                    easySystem.CurrentLogLevel = LogLevel;
                     easySystem.PreInit(GameShare, tickSystemDelay, _world, initializeType);
                 }
             }
@@ -146,5 +151,22 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         {
             _lateUpdateSystems?.Run();
         }
+    }
+
+    public enum LogLevel
+    {
+        None = 0,
+        Error = 1,
+        Warning = 2,
+        Info = 3,
+        Trace = 4
+    }
+
+    public enum LogType
+    {
+        Error = 1,
+        Warning = 2,
+        Info = 3,
+        Trace = 4
     }
 }
