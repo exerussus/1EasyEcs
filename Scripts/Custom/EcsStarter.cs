@@ -1,15 +1,21 @@
-﻿using Exerussus._1EasyEcs.Scripts.Core;
+﻿using System;
+using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Custom
 {
-    public abstract class EcsStarter<TPooler> : MonoBehaviour
+    public abstract class EcsStarter : MonoBehaviour
     {
-        [SerializeField] protected float tickSystemDelay = 0.5f;
+        [SerializeField] private bool autoInitialize = true;
+        [SerializeField] private EcsGroupStarter[] groups;
+        private EcsGroup[] _groups;
+        protected abstract Func<float> FixedUpdateDelta { get; }
+        protected abstract Func<float> UpdateDelta { get; }
+        protected abstract Signal Signal { get; }
+        
         protected EcsWorld _world;
-        protected TPooler _pooler;
         protected Componenter _componenter;
         protected IEcsSystems _initSystems;
         protected IEcsSystems _fixedUpdateSystems;
@@ -22,7 +28,9 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         private bool _isInitialized;
         public virtual string Name { get; private set; }
         public virtual LogLevel LogLevel => LogLevel.Trace;
-        
+
+        public EcsGroupStarter[] Groups => groups;
+
         public void PreInitialize()
         {
             if (_isPreInitialized) return;
@@ -31,125 +39,56 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _isPreInitialized = true;
             _world = new EcsWorld();
             _componenter = new Componenter(_world);
-            _pooler = GetPooler(_world);
-            GameShare.AddSharedObject(_pooler);
             GameShare.AddSharedObject(_componenter);
-            GameShare.AddSharedObject(GetSignal());
+            GameShare.AddSharedObject(Signal);
             
             SetSharingData(_world, GameShare);
-            PrepareInitSystems();
-            PrepareFixedUpdateSystems();
-            PrepareUpdateSystems();
-            PrepareLateUpdateSystems();
-            PrepareTickUpdateSystems();
-            DependencyInject();
+            
+            _groups = GetGroups();
+            if (_groups is EcsGroupStarter[] ecsGroup) groups = ecsGroup;
+            for (int i = 0; i < _groups.Length; i++) _groups[i].PreInitGroup(GetType().Name, GameShare, FixedUpdateDelta, UpdateDelta, _world, LogLevel);
         }
 
-        private void DependencyInject()
+        private void Start()
         {
-            InjectSystems(_initSystems);
-            InjectSystems(_fixedUpdateSystems, InitializeType.FixedUpdate);
-            InjectSystems(_updateSystems, InitializeType.Update);
-            InjectSystems(_lateUpdateSystems, InitializeType.Update);
-            InjectSystems(_tickUpdateSystems, InitializeType.Tick);
+            if (autoInitialize) Initialize();
         }
-        
-        private void InjectSystems(IEcsSystems systems, InitializeType initializeType = InitializeType.None)
-        {
-            foreach (var system in systems.GetAllSystems())
-            {
-                if (system is EasySystem<TPooler> easySystem)
-                {
-                    easySystem.LogPrefix = $"{Name} | {easySystem.GetType().Name} |";
-                    easySystem.CurrentLogLevel = LogLevel;
-                    easySystem.PreInit(GameShare, tickSystemDelay, _world, initializeType);
-                }
-            }
-        }
-        
+
         public void Initialize()
         {
             if (_isInitialized) return;
             if (!_isPreInitialized) PreInitialize();
             
             _isInitialized = true;
-            _initSystems.Init();
-            _fixedUpdateSystems.Init();
-            _updateSystems.Init();
-            _lateUpdateSystems.Init();
-            _tickUpdateSystems.Init();
+            
+            for (int i = 0; i < _groups.Length; i++) _groups[i].InitializeGroup();
         }
         
-        protected abstract void SetInitSystems(IEcsSystems initSystems);
-        protected abstract void SetFixedUpdateSystems(IEcsSystems fixedUpdateSystems);
-        protected abstract void SetUpdateSystems(IEcsSystems updateSystems);
-        protected abstract void SetLateUpdateSystems(IEcsSystems lateUpdateSystems);
-        protected abstract void SetTickUpdateSystems(IEcsSystems tickUpdateSystems);
+        protected abstract EcsGroup[] GetGroups();
         protected abstract void SetSharingData(EcsWorld world, GameShare gameShare);
-        protected abstract Signal GetSignal();
-        protected abstract TPooler GetPooler(EcsWorld world);
-
-        private void TryInvokeTick()
-        {
-            _tickTimer += Time.fixedDeltaTime;
-            if (!(_tickTimer >= tickSystemDelay)) return;
-            _tickTimer -= tickSystemDelay;
-            _tickUpdateSystems?.Run();
-        }
-        
-        private void PrepareInitSystems()
-        {
-            _initSystems = new EcsSystems(_world, GameShare);
-            SetInitSystems(_initSystems);
-        }
-        
-        private void PrepareFixedUpdateSystems()
-        {
-            _fixedUpdateSystems = new EcsSystems(_world, GameShare);
-            SetFixedUpdateSystems(_fixedUpdateSystems);
-        }
-        
-        private void PrepareUpdateSystems()
-        {
-            _updateSystems = new EcsSystems(_world, GameShare);
-            SetUpdateSystems(_updateSystems);
-        }
-        
-        private void PrepareLateUpdateSystems()
-        {
-            _lateUpdateSystems = new EcsSystems(_world, GameShare);
-            SetLateUpdateSystems(_lateUpdateSystems);
-        }
-        
-        private void PrepareTickUpdateSystems()
-        {
-            _tickUpdateSystems = new EcsSystems(_world, GameShare);
-            SetTickUpdateSystems(_tickUpdateSystems);
-        }
         
         protected virtual void OnDestroy() 
         {
-            _initSystems?.Destroy();
-            _fixedUpdateSystems?.Destroy();
-            _updateSystems?.Destroy();
-            _lateUpdateSystems?.Destroy();
-            _tickUpdateSystems?.Destroy();
+            if (!_isInitialized) return;
+            for (int i = 0; i < _groups.Length; i++) _groups[i].OnDestroy();
         }
 
         public void FixedUpdate()
         {
-            _fixedUpdateSystems?.Run();
-            TryInvokeTick();
+            if (!_isInitialized) return;
+            for (int i = 0; i < _groups.Length; i++) _groups[i].FixedUpdate();
         }
 
         public void Update()
         {
-            _updateSystems?.Run();
+            if (!_isInitialized) return;
+            for (int i = 0; i < _groups.Length; i++) _groups[i].Update();
         }
 
         public void LateUpdate()
         {
-            _lateUpdateSystems?.Run();
+            if (!_isInitialized) return;
+            for (int i = 0; i < _groups.Length; i++) _groups[i].LateUpdate();
         }
     }
 

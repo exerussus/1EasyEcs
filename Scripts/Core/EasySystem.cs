@@ -7,26 +7,25 @@ using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public abstract class EasySystem<TPooler> : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem
+    public abstract class EasySystem<TPoolerGroup> : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem
+        where TPoolerGroup : IGroupPooler
     {
         private bool _isInitialized = false;
         private GameShare _gameShare;
         protected EcsWorld World;
         protected Componenter Componenter;
-        protected TPooler Pooler;
+        protected TPoolerGroup Pooler;
         public string LogPrefix { get; set; }
         public LogLevel CurrentLogLevel { get; set; }
         private Signal _signal;
-        private float _deltaTime;
         protected float TickTime { get; private set; }
         private InitializeType _initializeType;
-
-        protected float DeltaTime => _deltaTime;
+        private Func<float> _deltaTimeFunc = () => 0;
+        protected float DeltaTime => _deltaTimeFunc();
         public Signal Signal => _signal;
         public GameShare GameShare => _gameShare;
 
-        public virtual void PreInit(GameShare gameShare, float tickTime, EcsWorld world,
-            InitializeType initializeType = InitializeType.None)
+        public virtual void PreInit(GameShare gameShare, float tickTime, Func<float> fixedUpdateDeltaFunc, Func<float> updateDeltaFunc, EcsWorld world, InitializeType initializeType = InitializeType.None)
         {
             if (_isInitialized) return;
             _gameShare = gameShare;
@@ -35,7 +34,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _gameShare.GetSharedObject(ref Pooler);
             TickTime = tickTime;
             _initializeType = initializeType;
-            _deltaTime = GetCurrentTime();
+            _deltaTimeFunc = GetCurrentTime(_initializeType, TickTime, fixedUpdateDeltaFunc, updateDeltaFunc);
             _isInitialized = true;
         }
 
@@ -61,24 +60,21 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 #endif
         }
         
-        private float GetCurrentTime()
+        private static Func<float> GetCurrentTime(InitializeType initializeType, float tickTime, Func<float> fixedUpdateDeltaFunc, Func<float> updateDeltaFunc)
         {
-            switch (_initializeType)
+            switch (initializeType)
             {
-                case InitializeType.None:
-                    return 0;
-                
                 case InitializeType.FixedUpdate:
-                    return Time.fixedDeltaTime;
+                    return fixedUpdateDeltaFunc;
                 
                 case InitializeType.Tick:
-                    return TickTime;
+                    return () => tickTime;
                 
                 case InitializeType.Update:
-                    return Time.deltaTime;
+                    return fixedUpdateDeltaFunc;
                 
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    return () => 0;
             }
         }
         
