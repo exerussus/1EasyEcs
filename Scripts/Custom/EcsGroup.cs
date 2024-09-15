@@ -32,7 +32,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
     [Serializable]
     public abstract class EcsGroup<TPoolerGroup> : EcsGroup where TPoolerGroup : IGroupPooler, new()
     {
-        protected float TickSystemDelay { get; }
+        protected virtual float TickSystemDelay { get; } = 1f;
         protected float TickTimer;
         protected GameShare GameShare;
         protected EcsWorld World;
