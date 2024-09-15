@@ -121,4 +121,11 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         Tick,
         Update
     }
+
+    public enum UpdateType
+    {
+        Update,
+        FixedUpdate,
+        LateUpdate
+    }
 }
