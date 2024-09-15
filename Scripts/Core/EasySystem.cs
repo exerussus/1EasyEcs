@@ -71,7 +71,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
                     return () => tickTime;
                 
                 case InitializeType.Update:
-                    return fixedUpdateDeltaFunc;
+                    return updateDeltaFunc;
                 
                 default:
                     return () => 0;
