@@ -59,6 +59,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             Pooler = new();
             Pooler.Initialize(World);
             GameShare.AddSharedObject(Pooler);
+
+            SetSharingData(World, GameShare);
             
             _initSystems = new EcsSystems(World, GameShare);
             SetInitSystems(_initSystems);
@@ -104,6 +106,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
                 }
             }
         }
+
+        protected virtual void SetSharingData(EcsWorld world, GameShare gameShare) { }
         
         public override void OnDestroy() 
         {
