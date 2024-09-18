@@ -13,5 +13,6 @@ https://github.com/exerussus/1Extensions.git
 [Stamina](https://github.com/exerussus/ecsmodule-stamina.git)    
 [TransformRelay](https://github.com/exerussus/ecsmodule-transformrelay.git)    
 [StaticAnimation](https://github.com/exerussus/ecsmodule-staticanimation.git)    
-[VfxSprites](https://github.com/exerussus/ecsmodule-vfxsprites.git)  
+[VfxSprites](https://github.com/exerussus/ecsmodule-vfxsprites.git)   
 [Input](https://github.com/badCodeNik/ecsmodule-input.git)   
+[ViewCreator](https://github.com/exerussus/ecsmodule-viewcreator)   
