@@ -11,30 +11,34 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         where TPoolerGroup : IGroupPooler
     {
         private bool _isInitialized = false;
+        protected GroupContext GroupContext { get; private set; }
+        protected GameContext GameContext { get; private set; }
         private GameShare _gameShare;
-        protected EcsWorld World;
+        protected EcsWorld World { get; private set; }
         protected Componenter Componenter;
         protected TPoolerGroup Pooler;
         public string LogPrefix { get; set; }
         public LogLevel CurrentLogLevel { get; set; }
         private Signal _signal;
-        protected float TickTime { get; private set; }
         private InitializeType _initializeType;
         private Func<float> _deltaTimeFunc = () => 0;
-        protected float DeltaTime => _deltaTimeFunc();
+        protected float DeltaTime => GetCurrentTime(_initializeType, GroupContext);
         public Signal Signal => _signal;
         public GameShare GameShare => _gameShare;
 
-        public virtual void PreInit(GameShare gameShare, float tickTime, Func<float> fixedUpdateDeltaFunc, Func<float> updateDeltaFunc, EcsWorld world, InitializeType initializeType = InitializeType.None)
+        public virtual void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext,
+            EcsWorld world, InitializeType initializeType = InitializeType.None)
         {
             if (_isInitialized) return;
+            World = world;
+            GameContext = gameContext;
+            GroupContext = groupContext;
             _gameShare = gameShare;
             _gameShare.GetSharedObject(ref Componenter);
             _gameShare.GetSharedObject(ref _signal);
             _gameShare.GetSharedObject(ref Pooler);
-            TickTime = tickTime;
+
             _initializeType = initializeType;
-            _deltaTimeFunc = GetCurrentTime(_initializeType, TickTime, fixedUpdateDeltaFunc, updateDeltaFunc);
             _isInitialized = true;
         }
 
@@ -60,21 +64,21 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 #endif
         }
         
-        private static Func<float> GetCurrentTime(InitializeType initializeType, float tickTime, Func<float> fixedUpdateDeltaFunc, Func<float> updateDeltaFunc)
+        private static float GetCurrentTime(InitializeType initializeType, GroupContext groupContext)
         {
             switch (initializeType)
             {
                 case InitializeType.FixedUpdate:
-                    return fixedUpdateDeltaFunc;
+                    return groupContext.FixedUpdateDelta;
                 
                 case InitializeType.Tick:
-                    return () => tickTime;
+                    return groupContext.TickDelta;
                 
                 case InitializeType.Update:
-                    return updateDeltaFunc;
+                    return groupContext.UpdateDelta;
                 
                 default:
-                    return () => 0;
+                    return 0;
             }
         }
         

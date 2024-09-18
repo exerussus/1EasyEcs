@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
@@ -9,7 +10,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
     public abstract class EcsStarter : MonoBehaviour
     {
         [SerializeField] private bool autoInitialize = true;
-        [SerializeField] private EcsGroupStarter[] groups;
+        [SerializeField] private GameContext gameContext;
+        [SerializeField] private GroupContext[] groups;
         private EcsGroup[] _groups;
         protected abstract Func<float> FixedUpdateDelta { get; }
         protected abstract Func<float> UpdateDelta { get; }
@@ -17,21 +19,15 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         
         protected EcsWorld _world;
         protected Componenter _componenter;
-        protected IEcsSystems _initSystems;
-        protected IEcsSystems _fixedUpdateSystems;
-        protected IEcsSystems _updateSystems;
-        protected IEcsSystems _lateUpdateSystems;
-        protected IEcsSystems _tickUpdateSystems;
-        protected float _tickTimer;
         public GameShare GameShare { get; } = new();
         private bool _isPreInitialized;
         private bool _isInitialized;
         public virtual string Name { get; private set; }
         public virtual LogLevel LogLevel => LogLevel.Trace;
 
-        public EcsGroupStarter[] Groups => groups;
+        public GroupContext[] Groups => groups;
 
-        public void PreInitialize()
+        public void PreInitialize(GameContext context)
         {
             if (_isPreInitialized) return;
             
@@ -45,19 +41,26 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             SetSharingData(_world, GameShare);
             
             _groups = GetGroups();
-            if (_groups is EcsGroupStarter[] ecsGroup) groups = ecsGroup;
-            for (int i = 0; i < _groups.Length; i++) _groups[i].PreInitGroup(GetType().Name, GameShare, FixedUpdateDelta, UpdateDelta, _world, LogLevel);
+            
+            for (int i = 0; i < _groups.Length; i++)
+            {
+                var groupContext = new GroupContext();
+                _groups[i].PreInitGroup(GetType().Name, groupContext, context, GameShare, _world, LogLevel);
+            }
+
+            groups = _groups.Select(group => group.GroupContext).ToArray();
         }
 
         private void Start()
         {
-            if (autoInitialize) Initialize();
+            if (autoInitialize) Initialize(gameContext);
         }
-
-        public void Initialize()
+        
+        public void Initialize(GameContext context)
         {
             if (_isInitialized) return;
-            if (!_isPreInitialized) PreInitialize();
+            gameContext = context;
+            if (!_isPreInitialized) PreInitialize(gameContext);
             
             _isInitialized = true;
             
@@ -76,7 +79,11 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         public void FixedUpdate()
         {
             if (!_isInitialized) return;
-            for (int i = 0; i < _groups.Length; i++) _groups[i].FixedUpdate();
+            for (int i = 0; i < _groups.Length; i++)
+            {
+                _groups[i].GroupContext.FixedUpdateDelta = Time.fixedDeltaTime;
+                _groups[i].FixedUpdate();
+            }
         }
 
         public void Update()

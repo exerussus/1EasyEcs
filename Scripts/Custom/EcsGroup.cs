@@ -8,8 +8,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
     [Serializable]
     public class EcsGroupStarter
     {
-        [SerializeField] public string name;
-        [SerializeField] public bool enabled = true;
+        [SerializeField] public GroupContext GroupContext;
     }
     
     [Serializable]
@@ -21,7 +20,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected virtual void SetLateUpdateSystems(IEcsSystems lateUpdateSystems) {}
         protected virtual void SetTickUpdateSystems(IEcsSystems tickUpdateSystems) {}
 
-        public abstract void PreInitGroup(string starterName, GameShare gameShare, Func<float> fixedUpdateDeltaFunc, Func<float> updateDeltaFunc, EcsWorld world, LogLevel logLevel);
+        public abstract void PreInitGroup(string starterName, GroupContext groupContext, GameContext gameContext,
+            GameShare gameShare, EcsWorld world, LogLevel logLevel);
         public abstract void InitializeGroup();
         public abstract void OnDestroy();
         public abstract void FixedUpdate();
@@ -41,20 +41,21 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected IEcsSystems _updateSystems;
         protected IEcsSystems _lateUpdateSystems;
         protected IEcsSystems _tickUpdateSystems;
-        protected Func<float> FixedUpdateDelta { get; private set; }
-        protected Func<float> UpdateDelta { get; private set; }
         protected string GroupName { get; private set; }
         protected LogLevel LogLevel { get; private set; }
         protected TPoolerGroup Pooler { get; private set; }
+        protected GameContext GameContext { get; private set; }
 
-        public override void PreInitGroup(string starterName, GameShare gameShare, Func<float> fixedUpdateDeltaFunc, Func<float> updateDeltaFunc, EcsWorld world, LogLevel logLevel)
+        public override void PreInitGroup(string starterName, GroupContext groupContext, GameContext gameContext,
+            GameShare gameShare, EcsWorld world, LogLevel logLevel)
         {
+            GameContext = gameContext;
+            GroupContext = groupContext;
+            GroupContext.TickDelta = TickSystemDelay;
             GameShare = gameShare;
             World = world;
-            FixedUpdateDelta = fixedUpdateDeltaFunc;
-            UpdateDelta = updateDeltaFunc;
             GroupName = GetType().Name;
-            name = GroupName;
+            GroupContext.Name = GroupName;
             LogLevel = logLevel;
             Pooler = new();
             Pooler.Initialize(World);
@@ -102,7 +103,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
                 {
                     easySystem.LogPrefix = $"{starterName} | {GroupName} | {easySystem.GetType().Name} |";
                     easySystem.CurrentLogLevel = LogLevel;
-                    easySystem.PreInit(GameShare, TickSystemDelay, FixedUpdateDelta, UpdateDelta, World, initializeType);
+                    easySystem.PreInit(GameShare, GameContext, GroupContext, World, initializeType);
                 }
             }
         }
@@ -128,20 +129,20 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         
         public override void FixedUpdate()
         {
-            if (!enabled) return;
+            if (!GroupContext.IsEnabled) return;
             _fixedUpdateSystems?.Run();
-            TryInvokeTick(FixedUpdateDelta());
+            TryInvokeTick(GroupContext.FixedUpdateDelta);
         }
 
         public override void Update()
         {
-            if (!enabled) return;
+            if (!GroupContext.IsEnabled) return;
             _updateSystems?.Run();
         }
 
         public override void LateUpdate()
         {
-            if (!enabled) return;
+            if (!GroupContext.IsEnabled) return;
             _lateUpdateSystems?.Run();
         }
     }
