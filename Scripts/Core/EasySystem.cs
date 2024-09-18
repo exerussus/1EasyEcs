@@ -21,7 +21,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private Signal _signal;
         private InitializeType _initializeType;
         private Func<float> _deltaTimeFunc = () => 0;
-        protected float DeltaTime => GetCurrentTime(_initializeType, GroupContext);
+        protected float DeltaTime => GetCurrentTime(_initializeType, GroupContext, GameContext);
         public Signal Signal => _signal;
         public GameShare GameShare => _gameShare;
 
@@ -63,18 +63,18 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 #endif
         }
         
-        private static float GetCurrentTime(InitializeType initializeType, GroupContext groupContext)
+        private static float GetCurrentTime(InitializeType initializeType, GroupContext groupContext, GameContext gameContext)
         {
             switch (initializeType)
             {
                 case InitializeType.FixedUpdate:
-                    return groupContext.FixedUpdateDelta;
+                    return gameContext.FixedUpdateDelta;
                 
                 case InitializeType.Tick:
                     return groupContext.TickDelta;
                 
                 case InitializeType.Update:
-                    return groupContext.UpdateDelta;
+                    return gameContext.UpdateDelta;
                 
                 default:
                     return 0;

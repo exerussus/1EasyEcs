@@ -128,7 +128,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         {
             if (!GroupContext.IsEnabled) return;
             _fixedUpdateSystems?.Run();
-            TryInvokeTick(GroupContext.FixedUpdateDelta);
+            TryInvokeTick(GameContext.FixedUpdateDelta);
         }
 
         public override void Update()

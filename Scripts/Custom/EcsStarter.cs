@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1Extensions.SignalSystem;
@@ -19,15 +20,26 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected EcsWorld _world;
         protected Componenter _componenter;
         
+        private Dictionary<Type, GroupContext> _groupContextsDict;
         private EcsGroup[] _groups;
         private bool _isPreInitialized;
         private bool _isInitialized;
         
         public GameShare GameShare { get; } = new();
         public virtual string Name { get; private set; }
-
         public GroupContext[] Groups => groups;
 
+        public bool TryGetGroupContext(Type groupType, out GroupContext groupContext)
+        {
+            if (_groupContextsDict.TryGetValue(groupType, out groupContext)) return true;
+            return false;
+        }
+        
+        public GroupContext GetGroupContext(Type groupType)
+        {
+            return _groupContextsDict[groupType];
+        }
+        
         public void PreInitialize(GameContext context)
         {
             if (_isPreInitialized) return;
@@ -42,11 +54,13 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             SetSharingData(_world, GameShare);
             
             _groups = GetGroups();
+            _groupContextsDict = new();
             
             for (int i = 0; i < _groups.Length; i++)
             {
                 var groupContext = new GroupContext();
                 _groups[i].PreInitGroup(GetType().Name, groupContext, context, GameShare, _world);
+                _groupContextsDict.Add(_groups[i].GetType(), _groups[i].GroupContext);
             }
 
             groups = _groups.Select(group => group.GroupContext).ToArray();
@@ -80,17 +94,15 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         public void FixedUpdate()
         {
             if (!_isInitialized) return;
-            for (int i = 0; i < _groups.Length; i++)
-            {
-                _groups[i].GroupContext.FixedUpdateDelta = Time.fixedDeltaTime;
-                _groups[i].FixedUpdate();
-            }
+            gameContext.FixedUpdateDelta = Time.fixedDeltaTime;
+            for (int i = 0; i < _groups.Length; i++) _groups[i].FixedUpdate();
         }
 
         public void Update()
         {
             if (!_isInitialized) return;
-            for (int i = 0; i < _groups.Length; i++) _groups[i].Update();
+            gameContext.UpdateDelta = Time.deltaTime;
+            for (int i = 0; i < _groups.Length; i++) _groups[i].Update(); 
         }
 
         public void LateUpdate()
