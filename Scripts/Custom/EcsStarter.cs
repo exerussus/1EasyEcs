@@ -12,18 +12,19 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         [SerializeField] private bool autoInitialize = true;
         [SerializeField] private GameContext gameContext;
         [SerializeField] private GroupContext[] groups;
-        private EcsGroup[] _groups;
+        
         protected abstract Func<float> FixedUpdateDelta { get; }
         protected abstract Func<float> UpdateDelta { get; }
         protected abstract Signal Signal { get; }
-        
         protected EcsWorld _world;
         protected Componenter _componenter;
-        public GameShare GameShare { get; } = new();
+        
+        private EcsGroup[] _groups;
         private bool _isPreInitialized;
         private bool _isInitialized;
+        
+        public GameShare GameShare { get; } = new();
         public virtual string Name { get; private set; }
-        public virtual LogLevel LogLevel => LogLevel.Trace;
 
         public GroupContext[] Groups => groups;
 
@@ -45,7 +46,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             for (int i = 0; i < _groups.Length; i++)
             {
                 var groupContext = new GroupContext();
-                _groups[i].PreInitGroup(GetType().Name, groupContext, context, GameShare, _world, LogLevel);
+                _groups[i].PreInitGroup(GetType().Name, groupContext, context, GameShare, _world);
             }
 
             groups = _groups.Select(group => group.GroupContext).ToArray();

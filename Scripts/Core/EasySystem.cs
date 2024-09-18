@@ -18,7 +18,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected Componenter Componenter;
         protected TPoolerGroup Pooler;
         public string LogPrefix { get; set; }
-        public LogLevel CurrentLogLevel { get; set; }
         private Signal _signal;
         private InitializeType _initializeType;
         private Func<float> _deltaTimeFunc = () => 0;
@@ -45,7 +44,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected virtual void Log(Custom.LogType logType, string message)
         {
 #if UNITY_EDITOR
-            if ((LogLevel)logType > CurrentLogLevel) return;
+            if ((LogLevel)logType > GameContext.LogLevel) return;
             switch (logType)
             {
                 case Custom.LogType.Error:

@@ -20,8 +20,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected virtual void SetLateUpdateSystems(IEcsSystems lateUpdateSystems) {}
         protected virtual void SetTickUpdateSystems(IEcsSystems tickUpdateSystems) {}
 
-        public abstract void PreInitGroup(string starterName, GroupContext groupContext, GameContext gameContext,
-            GameShare gameShare, EcsWorld world, LogLevel logLevel);
+        public abstract void PreInitGroup(string starterName, GroupContext groupContext, GameContext gameContext, GameShare gameShare, EcsWorld world);
         public abstract void InitializeGroup();
         public abstract void OnDestroy();
         public abstract void FixedUpdate();
@@ -47,7 +46,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected GameContext GameContext { get; private set; }
 
         public override void PreInitGroup(string starterName, GroupContext groupContext, GameContext gameContext,
-            GameShare gameShare, EcsWorld world, LogLevel logLevel)
+            GameShare gameShare, EcsWorld world)
         {
             GameContext = gameContext;
             GroupContext = groupContext;
@@ -56,7 +55,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             World = world;
             GroupName = GetType().Name;
             GroupContext.Name = GroupName;
-            LogLevel = logLevel;
             Pooler = new();
             Pooler.Initialize(World);
             GameShare.AddSharedObject(Pooler);
@@ -102,7 +100,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
                 if (system is EasySystem<TPoolerGroup> easySystem)
                 {
                     easySystem.LogPrefix = $"{starterName} | {GroupName} | {easySystem.GetType().Name} |";
-                    easySystem.CurrentLogLevel = LogLevel;
                     easySystem.PreInit(GameShare, GameContext, GroupContext, World, initializeType);
                 }
             }

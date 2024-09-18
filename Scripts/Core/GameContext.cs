@@ -1,4 +1,5 @@
 ﻿using System;
+using Exerussus._1EasyEcs.Scripts.Custom;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
@@ -7,5 +8,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
     {
         public bool IsPaused = false;
         public float GameTimeScale = 1f;
+        public LogLevel LogLevel = LogLevel.Trace;
     }
 }
