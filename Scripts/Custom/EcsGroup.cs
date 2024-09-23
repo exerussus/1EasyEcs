@@ -81,7 +81,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             InjectSystems(starterName, _updateSystems, InitializeType.Update);
             InjectSystems(starterName, _lateUpdateSystems, InitializeType.Update);
             InjectSystems(starterName, _tickUpdateSystems, InitializeType.Tick);
-            
         }
         
         public override void InitializeGroup()
