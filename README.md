@@ -16,3 +16,4 @@ https://github.com/exerussus/1Extensions.git
 [VfxSprites](https://github.com/exerussus/ecsmodule-vfxsprites.git)   
 [Input](https://github.com/badCodeNik/ecsmodule-input.git)   
 [ViewCreator](https://github.com/exerussus/ecsmodule-viewcreator)   
+[Contact2D](https://github.com/exerussus/ecsmodule-contact2d.git)   
