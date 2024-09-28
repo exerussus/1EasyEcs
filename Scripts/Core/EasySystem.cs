@@ -129,6 +129,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
     {
         Update,
         FixedUpdate,
-        LateUpdate
+        LateUpdate,
+        TickUpdate
     }
 }
