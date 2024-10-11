@@ -56,8 +56,10 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             GroupName = GetType().Name;
             GroupContext.Name = GroupName;
             Pooler = new();
-            Pooler.Initialize(World);
             GameShare.AddSharedObject(Pooler);
+            OnBeforePoolInitializing(World, Pooler);
+            Pooler.BeforeInitialize(World);
+            Pooler.Initialize(World);
 
             SetSharingData(World, GameShare);
             
@@ -141,10 +143,13 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             if (!GroupContext.IsEnabled) return;
             _lateUpdateSystems?.Run();
         }
+        
+        protected virtual void OnBeforePoolInitializing(EcsWorld world, TPoolerGroup pooler) { }
     }
 
     public interface IGroupPooler
     {
+        public virtual void BeforeInitialize(EcsWorld world) {}
         public abstract void Initialize(EcsWorld world);
     } 
 }

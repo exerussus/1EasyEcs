@@ -11,7 +11,6 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
     public abstract class EcsStarter : MonoBehaviour
     {
         [SerializeField] private bool autoInitialize = true;
-        [SerializeField] private GameContext gameContext;
         [SerializeField] private GroupContext[] groups;
         
         protected abstract Func<float> FixedUpdateDelta { get; }
@@ -20,6 +19,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected EcsWorld _world;
         protected Componenter _componenter;
         
+        private GameContext _gameContext;
         private Dictionary<Type, GroupContext> _groupContextsDict;
         private EcsGroup[] _groups;
         private bool _isPreInitialized;
@@ -39,17 +39,22 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         {
             return _groupContextsDict[groupType];
         }
+
+        protected abstract GameContext GetGameContext(GameShare gameShare); 
         
-        public void PreInitialize(GameContext context)
+        public void PreInitialize()
         {
             if (_isPreInitialized) return;
             
+            _gameContext = GetGameContext(GameShare);
             Name = GetType().Name;
             _isPreInitialized = true;
             _world = new EcsWorld();
             _componenter = new Componenter(_world);
             GameShare.AddSharedObject(_componenter);
             GameShare.AddSharedObject(Signal);
+            GameShare.AddSharedObject(_gameContext);
+            GameShare.AddSharedObject(_gameContext.GetType(), _gameContext);
             
             SetSharingData(_world, GameShare);
             
@@ -59,7 +64,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             for (int i = 0; i < _groups.Length; i++)
             {
                 var groupContext = new GroupContext();
-                _groups[i].PreInitGroup(GetType().Name, groupContext, context, GameShare, _world);
+                _groups[i].PreInitGroup(GetType().Name, groupContext, _gameContext, GameShare, _world);
                 _groupContextsDict.Add(_groups[i].GetType(), _groups[i].GroupContext);
             }
 
@@ -68,14 +73,13 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
 
         private void Start()
         {
-            if (autoInitialize) Initialize(gameContext);
+            if (autoInitialize) Initialize();
         }
         
-        public void Initialize(GameContext context)
+        public void Initialize()
         {
             if (_isInitialized) return;
-            gameContext = context;
-            if (!_isPreInitialized) PreInitialize(gameContext);
+            if (!_isPreInitialized) PreInitialize();
             
             _isInitialized = true;
             
@@ -94,14 +98,14 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         public void FixedUpdate()
         {
             if (!_isInitialized) return;
-            gameContext.FixedUpdateDelta = Time.fixedDeltaTime;
+            _gameContext.FixedUpdateDelta = Time.fixedDeltaTime;
             for (int i = 0; i < _groups.Length; i++) _groups[i].FixedUpdate();
         }
 
         public void Update()
         {
             if (!_isInitialized) return;
-            gameContext.UpdateDelta = Time.deltaTime;
+            _gameContext.UpdateDelta = Time.deltaTime;
             for (int i = 0; i < _groups.Length; i++) _groups[i].Update(); 
         }
 
