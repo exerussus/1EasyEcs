@@ -1,5 +1,6 @@
 ﻿using System;
 using Exerussus._1EasyEcs.Scripts.Core;
+using Exerussus._1Extensions.SignalSystem;
 using Leopotam.EcsLite;
 using UnityEngine;
 
@@ -14,18 +15,37 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
     [Serializable]
     public abstract class EcsGroup : EcsGroupStarter
     {
-        protected virtual void SetInitSystems(IEcsSystems initSystems) {}
-        protected virtual void SetFixedUpdateSystems(IEcsSystems fixedUpdateSystems) {}
-        protected virtual void SetUpdateSystems(IEcsSystems updateSystems) {}
-        protected virtual void SetLateUpdateSystems(IEcsSystems lateUpdateSystems) {}
-        protected virtual void SetTickUpdateSystems(IEcsSystems tickUpdateSystems) {}
+        protected IEcsSystems _initSystems;
+        protected IEcsSystems _fixedUpdateSystems;
+        protected IEcsSystems _updateSystems;
+        protected IEcsSystems _lateUpdateSystems;
+        protected IEcsSystems _tickUpdateSystems;
 
-        public abstract void PreInitGroup(string starterName, GroupContext groupContext, GameContext gameContext, GameShare gameShare, EcsWorld world);
+        public IEcsSystems InitSystems => _initSystems;
+        public IEcsSystems FixedUpdateSystems => _fixedUpdateSystems;
+        public IEcsSystems UpdateSystems => _updateSystems;
+        public IEcsSystems LateUpdateSystems => _lateUpdateSystems;
+        public IEcsSystems TickUpdateSystems => _tickUpdateSystems;
+        public bool HasFixedUpdates { get; private set; } = true;
+        public bool HasUpdates { get; private set; } = true;
+        public bool HasLateUpdates { get; private set; } = true;
+        public bool HasTickUpdates { get; private set; } = true;
+        
+        protected virtual void SetInitSystems(IEcsSystems initSystems) {}
+
+        protected virtual void SetFixedUpdateSystems(IEcsSystems fixedUpdateSystems) { HasFixedUpdates = false; }
+        protected virtual void SetUpdateSystems(IEcsSystems updateSystems) { HasUpdates = false; }
+        protected virtual void SetLateUpdateSystems(IEcsSystems lateUpdateSystems) { HasLateUpdates = false; }
+        protected virtual void SetTickUpdateSystems(IEcsSystems tickUpdateSystems) { HasTickUpdates = false; }
+
+        public abstract void PreInitComponents(string starterName, GroupContext groupContext, GameContext gameContext, GameShare gameShare, EcsWorld world);
+        public abstract void PreInitGroup();
         public abstract void InitializeGroup();
         public abstract void OnDestroy();
         public abstract void FixedUpdate();
         public abstract void Update();
         public abstract void LateUpdate();
+        public abstract void TickUpdate();
     }
     
     [Serializable]
@@ -34,34 +54,35 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected virtual float TickSystemDelay { get; } = 1f;
         protected float TickTimer;
         protected GameShare GameShare;
+        protected Signal Signal;
         protected EcsWorld World;
-        protected IEcsSystems _initSystems;
-        protected IEcsSystems _fixedUpdateSystems;
-        protected IEcsSystems _updateSystems;
-        protected IEcsSystems _lateUpdateSystems;
-        protected IEcsSystems _tickUpdateSystems;
+
         protected string GroupName { get; private set; }
         protected LogLevel LogLevel { get; private set; }
         protected TPoolerGroup Pooler { get; private set; }
         protected GameContext GameContext { get; private set; }
 
-        public override void PreInitGroup(string starterName, GroupContext groupContext, GameContext gameContext,
-            GameShare gameShare, EcsWorld world)
+        public override void PreInitComponents(string starterName, GroupContext groupContext, GameContext gameContext, GameShare gameShare, EcsWorld world)
         {
             GameContext = gameContext;
             GroupContext = groupContext;
-            GroupContext.TickDelta = TickSystemDelay;
             GameShare = gameShare;
+            Pooler = new();
+            GroupContext.TickDelta = TickSystemDelay;
             World = world;
+            gameShare.GetSharedObject(ref Signal);
             GroupName = GetType().Name;
             GroupContext.Name = GroupName;
-            Pooler = new();
             GameShare.AddSharedObject(Pooler);
-            OnBeforePoolInitializing(World, Pooler);
-            Pooler.BeforeInitialize(World);
-            Pooler.Initialize(World);
-
             SetSharingData(World, GameShare);
+        }
+
+        public override void PreInitGroup()
+        {
+            OnBeforePoolInitializing(World, Pooler);
+            Pooler.BeforeInitialize(World, GameShare, GameContext, GroupName);
+            
+            Pooler.Initialize(World);
             
             _initSystems = new EcsSystems(World, GameShare);
             SetInitSystems(_initSystems);
@@ -78,11 +99,11 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _tickUpdateSystems = new EcsSystems(World, GameShare);
             SetTickUpdateSystems(_tickUpdateSystems);
             
-            InjectSystems(starterName, _initSystems);
-            InjectSystems(starterName, _fixedUpdateSystems, InitializeType.FixedUpdate);
-            InjectSystems(starterName, _updateSystems, InitializeType.Update);
-            InjectSystems(starterName, _lateUpdateSystems, InitializeType.Update);
-            InjectSystems(starterName, _tickUpdateSystems, InitializeType.Tick);
+            InjectSystems(GroupName, _initSystems);
+            InjectSystems(GroupName, _fixedUpdateSystems, InitializeType.FixedUpdate);
+            InjectSystems(GroupName, _updateSystems, InitializeType.Update);
+            InjectSystems(GroupName, _lateUpdateSystems, InitializeType.Update);
+            InjectSystems(GroupName, _tickUpdateSystems, InitializeType.Tick);
         }
         
         public override void InitializeGroup()
@@ -116,20 +137,11 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _lateUpdateSystems?.Destroy();
             _tickUpdateSystems?.Destroy();
         }
-
-        private void TryInvokeTick(float deltaTime)
-        {
-            TickTimer += deltaTime;
-            if (!(TickTimer >= TickSystemDelay)) return;
-            TickTimer -= TickSystemDelay;
-            _tickUpdateSystems?.Run();
-        }
         
         public override void FixedUpdate()
         {
             if (!GroupContext.IsEnabled) return;
             _fixedUpdateSystems?.Run();
-            TryInvokeTick(GameContext.FixedUpdateDelta);
         }
 
         public override void Update()
@@ -143,13 +155,21 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             if (!GroupContext.IsEnabled) return;
             _lateUpdateSystems?.Run();
         }
-        
+
+        public override void TickUpdate()
+        {
+            TickTimer += GameContext.FixedUpdateDelta;
+            if (!(TickTimer >= TickSystemDelay)) return;
+            TickTimer -= TickSystemDelay;
+            _tickUpdateSystems?.Run();
+        }
+
         protected virtual void OnBeforePoolInitializing(EcsWorld world, TPoolerGroup pooler) { }
     }
 
     public interface IGroupPooler
     {
-        public virtual void BeforeInitialize(EcsWorld world) {}
+        public virtual void BeforeInitialize(EcsWorld world, GameShare gameShare, GameContext gameContext, string groupName) {}
         public abstract void Initialize(EcsWorld world);
     } 
 }

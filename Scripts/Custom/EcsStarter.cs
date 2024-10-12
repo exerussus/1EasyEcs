@@ -21,7 +21,11 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         
         private GameContext _gameContext;
         private Dictionary<Type, GroupContext> _groupContextsDict;
-        private EcsGroup[] _groups;
+        private EcsGroup[] _allGroups = Array.Empty<EcsGroup>();
+        private EcsGroup[] _fixedUpdatesGroups = Array.Empty<EcsGroup>();
+        private EcsGroup[] _updatesGroups = Array.Empty<EcsGroup>();
+        private EcsGroup[] _lateUpdatesGroups = Array.Empty<EcsGroup>();
+        private EcsGroup[] _tickUpdatesGroups = Array.Empty<EcsGroup>();
         private bool _isPreInitialized;
         private bool _isInitialized;
         
@@ -58,17 +62,19 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             
             SetSharingData(_world, GameShare);
             
-            _groups = GetGroups();
+            _allGroups = GetGroups();
             _groupContextsDict = new();
             
-            for (int i = 0; i < _groups.Length; i++)
+            for (int i = 0; i < _allGroups.Length; i++)
             {
                 var groupContext = new GroupContext();
-                _groups[i].PreInitGroup(GetType().Name, groupContext, _gameContext, GameShare, _world);
-                _groupContextsDict.Add(_groups[i].GetType(), _groups[i].GroupContext);
+                _allGroups[i].PreInitComponents(GetType().Name, groupContext, _gameContext, GameShare, _world);
+                _groupContextsDict.Add(_allGroups[i].GetType(), _allGroups[i].GroupContext);
             }
+            
+            for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].PreInitGroup();
 
-            groups = _groups.Select(group => group.GroupContext).ToArray();
+            groups = _allGroups.Select(group => group.GroupContext).ToArray();
         }
 
         private void Start()
@@ -83,7 +89,12 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             
             _isInitialized = true;
             
-            for (int i = 0; i < _groups.Length; i++) _groups[i].InitializeGroup();
+            for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].InitializeGroup();
+            
+            _fixedUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.FixedUpdateSystems.GetAllSystems().Count > 0).ToArray();
+            _updatesGroups = _allGroups.Where(ecsGroup => ecsGroup.UpdateSystems.GetAllSystems().Count > 0).ToArray();
+            _lateUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.LateUpdateSystems.GetAllSystems().Count > 0).ToArray();
+            _tickUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.TickUpdateSystems.GetAllSystems().Count > 0).ToArray();
         }
         
         protected abstract EcsGroup[] GetGroups();
@@ -92,27 +103,28 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected virtual void OnDestroy() 
         {
             if (!_isInitialized) return;
-            for (int i = 0; i < _groups.Length; i++) _groups[i].OnDestroy();
+            for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].OnDestroy();
         }
 
         public void FixedUpdate()
         {
             if (!_isInitialized) return;
             _gameContext.FixedUpdateDelta = Time.fixedDeltaTime;
-            for (int i = 0; i < _groups.Length; i++) _groups[i].FixedUpdate();
+            for (int i = 0; i < _fixedUpdatesGroups.Length; i++) _fixedUpdatesGroups[i].FixedUpdate();
+            for (int i = 0; i < _tickUpdatesGroups.Length; i++) _tickUpdatesGroups[i].TickUpdate();
         }
 
         public void Update()
         {
             if (!_isInitialized) return;
             _gameContext.UpdateDelta = Time.deltaTime;
-            for (int i = 0; i < _groups.Length; i++) _groups[i].Update(); 
+            for (int i = 0; i < _updatesGroups.Length; i++) _updatesGroups[i].Update();
         }
 
         public void LateUpdate()
         {
             if (!_isInitialized) return;
-            for (int i = 0; i < _groups.Length; i++) _groups[i].LateUpdate();
+            for (int i = 0; i < _lateUpdatesGroups.Length; i++) _lateUpdatesGroups[i].LateUpdate();
         }
     }
 
