@@ -55,6 +55,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _isPreInitialized = true;
             _world = new EcsWorld();
             _componenter = new Componenter(_world);
+            GameShare.AddSharedObject(_world);
             GameShare.AddSharedObject(_componenter);
             GameShare.AddSharedObject(Signal);
             GameShare.AddSharedObject(_gameContext);
