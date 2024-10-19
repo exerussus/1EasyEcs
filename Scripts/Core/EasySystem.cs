@@ -85,6 +85,11 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         {
             _signal.RegistryRaise(data);
         }
+        
+        public void RegistrySignal<T>(ref T data) where T : struct
+        {
+            _signal.RegistryRaise(ref data);
+        }
 
         public void SubscribeSignal<T>(Action<T> action) where T : struct
         {
