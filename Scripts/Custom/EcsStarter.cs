@@ -46,7 +46,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
 
         protected abstract GameContext GetGameContext(GameShare gameShare); 
         
-        public void PreInitialize()
+        public virtual void PreInitialize()
         {
             if (_isPreInitialized) return;
             
@@ -78,12 +78,12 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             groups = _allGroups.Select(group => group.GroupContext).ToArray();
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             if (autoInitialize) Initialize();
         }
         
-        public void Initialize()
+        public virtual void Initialize()
         {
             if (_isInitialized) return;
             if (!_isPreInitialized) PreInitialize();
@@ -107,7 +107,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].OnDestroy();
         }
 
-        public void FixedUpdate()
+        public virtual void FixedUpdate()
         {
             if (!_isInitialized) return;
             _gameContext.FixedUpdateDelta = Time.fixedDeltaTime;
@@ -115,14 +115,14 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             for (int i = 0; i < _tickUpdatesGroups.Length; i++) _tickUpdatesGroups[i].TickUpdate();
         }
 
-        public void Update()
+        public virtual void Update()
         {
             if (!_isInitialized) return;
             _gameContext.UpdateDelta = Time.deltaTime;
             for (int i = 0; i < _updatesGroups.Length; i++) _updatesGroups[i].Update();
         }
 
-        public void LateUpdate()
+        public virtual void LateUpdate()
         {
             if (!_isInitialized) return;
             for (int i = 0; i < _lateUpdatesGroups.Length; i++) _lateUpdatesGroups[i].LateUpdate();
