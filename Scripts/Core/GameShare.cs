@@ -17,6 +17,11 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             var sharedObject = classPack.Object;
             return (T)sharedObject;
         }
+
+        public T InjectSharedObject<T>(T sharedObject)
+        {
+            return GetSharedObject<T>();
+        }
         
         public void GetSharedObject<T>(ref T sharedObject)
         {
