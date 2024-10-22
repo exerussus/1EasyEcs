@@ -73,6 +73,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
                 _groupContextsDict.Add(_allGroups[i].GetType(), _allGroups[i].GroupContext);
             }
 
+            for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].InjectPooler();
+
             SetSharingDataBeforePreInitialized(_world, GameShare);
             
             for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].PreInitGroup();

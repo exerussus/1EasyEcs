@@ -39,6 +39,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         protected virtual void SetTickUpdateSystems(IEcsSystems tickUpdateSystems) { HasTickUpdates = false; }
 
         public abstract void PreInitComponents(string starterName, GroupContext groupContext, GameContext gameContext, GameShare gameShare, EcsWorld world);
+        public abstract void InjectPooler();
         public abstract void PreInitGroup();
         public abstract void InitializeGroup();
         public abstract void OnDestroy();
@@ -77,6 +78,11 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             SetSharingData(World, GameShare);
         }
 
+        public override void InjectPooler()
+        {
+            SharedObjectInjector.InjectSharedObjects(Pooler, GameShare);
+        }
+
         public override void PreInitGroup()
         {
             OnBeforePoolInitializing(World, Pooler);
@@ -113,6 +119,11 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _updateSystems.Init();
             _lateUpdateSystems.Init();
             _tickUpdateSystems.Init();
+        }
+
+        private void InjectPoolers()
+        {
+            
         }
         
         private void InjectSystems(string starterName, IEcsSystems systems, InitializeType initializeType = InitializeType.None)

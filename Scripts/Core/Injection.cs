@@ -3,7 +3,7 @@ using Exerussus._1EasyEcs.Scripts.Custom;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
     public class InjectSharedObjectAttribute : Attribute
     {
     }
@@ -22,6 +22,11 @@ namespace Exerussus._1EasyEcs.Scripts.Core
                 System.Reflection.BindingFlags.NonPublic | 
                 System.Reflection.BindingFlags.Public | 
                 System.Reflection.BindingFlags.Instance);
+            var properties = targetType.GetProperties(
+                System.Reflection.BindingFlags.NonPublic | 
+                System.Reflection.BindingFlags.Public | 
+                System.Reflection.BindingFlags.Instance);
+            
             var method = typeof(GameShare).GetMethod("GetSharedObject", new Type[] { });
         
             foreach (var field in fields)
@@ -33,6 +38,18 @@ namespace Exerussus._1EasyEcs.Scripts.Core
                     var genericMethod = method.MakeGenericMethod(fieldType);
                     var sharedObject = genericMethod.Invoke(gameShare, null);
                     field.SetValue(target, sharedObject);
+                }
+            }
+
+            foreach (var property in properties)
+            {
+                var attribute = Attribute.GetCustomAttribute(property, typeof(InjectSharedObjectAttribute)) as InjectSharedObjectAttribute;
+                if (attribute != null && property.CanWrite)
+                {
+                    var propertyType = property.PropertyType;
+                    var genericMethod = method.MakeGenericMethod(propertyType);
+                    var sharedObject = genericMethod.Invoke(gameShare, null);
+                    property.SetValue(target, sharedObject);
                 }
             }
         }
