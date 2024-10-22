@@ -61,7 +61,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             GameShare.AddSharedObject(_gameContext);
             GameShare.AddSharedObject(_gameContext.GetType(), _gameContext);
             
-            SetSharingData(_world, GameShare);
+            SetSharingDataOnStart(_world, GameShare);
             
             _allGroups = GetGroups();
             _groupContextsDict = new();
@@ -72,6 +72,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
                 _allGroups[i].PreInitComponents(GetType().Name, groupContext, _gameContext, GameShare, _world);
                 _groupContextsDict.Add(_allGroups[i].GetType(), _allGroups[i].GroupContext);
             }
+
+            SetSharingDataBeforePreInitialized(_world, GameShare);
             
             for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].PreInitGroup();
 
@@ -90,16 +92,28 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             
             _isInitialized = true;
             
+            SetSharingDataBeforeInitialized(_world, GameShare);
             for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].InitializeGroup();
             
             _fixedUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.FixedUpdateSystems.GetAllSystems().Count > 0).ToArray();
             _updatesGroups = _allGroups.Where(ecsGroup => ecsGroup.UpdateSystems.GetAllSystems().Count > 0).ToArray();
             _lateUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.LateUpdateSystems.GetAllSystems().Count > 0).ToArray();
             _tickUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.TickUpdateSystems.GetAllSystems().Count > 0).ToArray();
+            
+            SetSharingDataAfterInitialized(_world, GameShare);
         }
         
         protected abstract EcsGroup[] GetGroups();
-        protected abstract void SetSharingData(EcsWorld world, GameShare gameShare);
+        /// <summary> Срабатывает до начала создания групп, пуллеров и систем. Полезно для прокидывания данных для групп и пуллеров до их появления. </summary>
+        protected abstract void SetSharingDataOnStart(EcsWorld world, GameShare gameShare);
+        
+        /// <summary> Срабатывает после создания групп, пуллеров и систем, но до их пре-инициализации. </summary>
+        protected virtual void SetSharingDataBeforePreInitialized(EcsWorld world, GameShare gameShare) {}
+        
+        /// <summary> Срабатывает после создания групп, пуллеров и систем и их пре-инициализации, но до инициализации. </summary>
+        protected virtual void SetSharingDataBeforeInitialized(EcsWorld world, GameShare gameShare) {}
+        /// <summary> Срабатывает после инициализации всех групп, пуллеров и систем. </summary>
+        protected virtual void SetSharingDataAfterInitialized(EcsWorld world, GameShare gameShare) {}
         
         protected virtual void OnDestroy() 
         {
