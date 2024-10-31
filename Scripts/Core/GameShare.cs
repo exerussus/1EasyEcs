@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
@@ -11,6 +12,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         [SerializeField] private List<string> sharedEcsSystems = new ();
         private Dictionary<Type, DataPack> _sharedObjects = new();
         
+        [Preserve]
         public T GetSharedObject<T>()
         {
             var classPack = _sharedObjects[typeof(T)];
@@ -18,18 +20,21 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             return (T)sharedObject;
         }
         
+        [Preserve]
         public void GetSharedObject<T>(ref T sharedObject)
         {
             var classPack = _sharedObjects[typeof(T)];
             sharedObject = (T)classPack.Object;
         }
 
+        [Preserve]
         public void AddSharedObject<T>(Type type, T sharedObject)
         {
             sharedEcsSystems.Add(type.Name);
             _sharedObjects[type] = new DataPack(type, sharedObject);
         }
 
+        [Preserve]
         public void AddSharedObject<T>(T sharedObject)
         {
             var type = sharedObject.GetType();
