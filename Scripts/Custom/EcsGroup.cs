@@ -177,11 +177,12 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         }
 
         protected virtual void OnBeforePoolInitializing(EcsWorld world, TPoolerGroup pooler) { }
+        protected virtual TPoolerGroup GetPoolerGroup() { return new(); }
     }
 
     public interface IGroupPooler
     {
         public virtual void BeforeInitialize(EcsWorld world, GameShare gameShare, GameContext gameContext, string groupName) {}
-        public abstract void Initialize(EcsWorld world);
+        public virtual void Initialize(EcsWorld world) {}
     } 
 }
