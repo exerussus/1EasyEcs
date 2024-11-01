@@ -68,7 +68,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             GameContext = gameContext;
             GroupContext = groupContext;
             GameShare = gameShare;
-            Pooler = new();
+            Pooler = GetPoolerGroup();
             GroupContext.TickDelta = TickSystemDelay;
             World = world;
             gameShare.GetSharedObject(ref Signal);
