@@ -35,7 +35,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _gameShare = gameShare;
             _gameShare.GetSharedObject(ref Componenter);
             _gameShare.GetSharedObject(ref _signal);
-            _gameShare.GetSharedObject(ref Pooler);
+            Pooler = _gameShare.GetSharedObject<TPoolerGroup>();
 
             _initializeType = initializeType;
             _isInitialized = true;
