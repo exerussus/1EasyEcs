@@ -135,7 +135,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
                 if (system is EasySystem<TPoolerGroup> easySystem)
                 {
                     easySystem.LogPrefix = $"{starterName} | {GroupName} | {easySystem.GetType().Name} |";
-                    easySystem.InjectSharedObjects(GameShare);
+                    GameShare.InjectSharedObjects(easySystem);
                     easySystem.PreInit(GameShare, GameContext, GroupContext, World, initializeType);
                 }
             }
