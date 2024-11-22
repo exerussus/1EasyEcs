@@ -1,5 +1,6 @@
 ﻿using System;
 using Exerussus._1EasyEcs.Scripts.Custom;
+using Exerussus._1Extensions.SmallFeatures;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
