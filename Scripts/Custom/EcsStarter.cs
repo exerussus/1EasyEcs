@@ -11,7 +11,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
 {
     public abstract class EcsStarter : MonoBehaviour
     {
-        [SerializeField] private bool autoInitialize = true;
+        [SerializeField] private bool autoInitialize = false;
         [SerializeField] private GroupContext[] groups;
         
         protected abstract Func<float> FixedUpdateDelta { get; }
@@ -30,7 +30,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         private bool _isPreInitialized;
         private bool _isInitialized;
         
-        public GameShare GameShare { get; } = new();
+        public virtual GameShare GameShare { get; } = new();
         public virtual string Name { get; private set; }
         public GroupContext[] Groups => groups;
 
