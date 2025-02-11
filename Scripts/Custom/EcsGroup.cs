@@ -108,10 +108,10 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             SetTickUpdateSystems(_tickUpdateSystems);
             
             InjectSystems(GroupName, _initSystems);
-            InjectSystems(GroupName, _fixedUpdateSystems, InitializeType.FixedUpdate);
-            InjectSystems(GroupName, _updateSystems, InitializeType.Update);
-            InjectSystems(GroupName, _lateUpdateSystems, InitializeType.Update);
-            InjectSystems(GroupName, _tickUpdateSystems, InitializeType.Tick);
+            InjectSystems(GroupName, _fixedUpdateSystems);
+            InjectSystems(GroupName, _updateSystems);
+            InjectSystems(GroupName, _lateUpdateSystems);
+            InjectSystems(GroupName, _tickUpdateSystems);
         }
         
         public override void InitializeGroup()
@@ -128,7 +128,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             
         }
         
-        private void InjectSystems(string starterName, IEcsSystems systems, InitializeType initializeType = InitializeType.None)
+        private void InjectSystems(string starterName, IEcsSystems systems)
         {
             foreach (var system in systems.GetAllSystems())
             {
