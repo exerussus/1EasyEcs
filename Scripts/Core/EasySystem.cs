@@ -5,6 +5,7 @@ using Exerussus._1Extensions.SignalSystem;
 using Exerussus._1Extensions.SmallFeatures;
 using Leopotam.EcsLite;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
@@ -20,14 +21,14 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected TPoolerGroup Pooler;
         public string LogPrefix { get; set; }
         private Signal _signal;
-        private InitializeType _initializeType;
-        private Func<float> _deltaTimeFunc = () => 0;
-        protected float DeltaTime => GetCurrentTime(_initializeType, GroupContext, GameContext);
+        public float DeltaTime { get; private set; }
         public Signal Signal => _signal;
         public GameShare GameShare => _gameShare;
+        public virtual float UpdateDelay { get; set; } = Random.Range(0.099f, 0.099f);
+        protected float NextUpdateTime;
+        protected float LastUpdateTime;
 
-        public virtual void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext,
-            EcsWorld world, InitializeType initializeType = InitializeType.None)
+        public virtual void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext, EcsWorld world)
         {
             if (_isInitialized) return;
             World = world;
@@ -38,7 +39,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _gameShare.GetSharedObject(ref _signal);
             Pooler = _gameShare.GetSharedObject<TPoolerGroup>();
 
-            _initializeType = initializeType;
             _isInitialized = true;
         }
 
@@ -62,24 +62,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
                     break;
             }
 #endif
-        }
-        
-        private static float GetCurrentTime(InitializeType initializeType, GroupContext groupContext, GameContext gameContext)
-        {
-            switch (initializeType)
-            {
-                case InitializeType.FixedUpdate:
-                    return gameContext.FixedUpdateDelta;
-                
-                case InitializeType.Tick:
-                    return groupContext.TickDelta;
-                
-                case InitializeType.Update:
-                    return gameContext.UpdateDelta;
-                
-                default:
-                    return 0;
-            }
         }
         
         public void RegistrySignal<T>(T data) where T : struct
@@ -110,7 +92,11 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         public void Run(IEcsSystems systems)
         {
+            if (NextUpdateTime > Time.time) return;
+            NextUpdateTime = UpdateDelay + Time.time;
+            DeltaTime = Time.time - LastUpdateTime;
             Update();
+            LastUpdateTime = Time.time;
         }
 
         protected virtual void Initialize() {}
