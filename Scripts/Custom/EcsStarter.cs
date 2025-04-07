@@ -13,10 +13,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
     {
         [SerializeField] private bool autoInitialize = false;
         [SerializeField] private GroupContext[] groups;
-        
-        protected abstract Func<float> FixedUpdateDelta { get; }
-        protected abstract Func<float> UpdateDelta { get; }
-        protected abstract Signal Signal { get; }
+        public abstract Signal Signal { get; }
         protected EcsWorld _world;
         protected Componenter _componenter;
         
