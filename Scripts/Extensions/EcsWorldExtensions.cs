@@ -1,6 +1,6 @@
 ﻿using Leopotam.EcsLite;
 
-namespace Plugins.Exerussus._1EasyEcs.Scripts.Extensions
+namespace Exerussus._1EasyEcs.Scripts.Extensions
 {
     public static class EcsWorldExtensions
     {
