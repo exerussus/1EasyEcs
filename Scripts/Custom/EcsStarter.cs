@@ -47,10 +47,10 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         public virtual void PreInitialize()
         {
             if (_isPreInitialized) return;
+            _isPreInitialized = true;
             
             _gameContext = GetGameContext(GameShare);
             Name = GetType().Name;
-            _isPreInitialized = true;
             _world = new EcsWorld();
             _componenter = new Componenter(_world);
             GameShare.AddSharedObject(_world);
@@ -70,6 +70,13 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
                 _allGroups[i].PreInitComponents(GetType().Name, groupContext, _gameContext, GameShare, _world);
                 _groupContextsDict.Add(_allGroups[i].GetType(), _allGroups[i].GroupContext);
             }
+            
+            SetSharingDataBeforeInitialized(_world, GameShare);
+            
+            _fixedUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.FixedUpdateSystems.GetAllSystems().Count > 0).ToArray();
+            _updatesGroups = _allGroups.Where(ecsGroup => ecsGroup.UpdateSystems.GetAllSystems().Count > 0).ToArray();
+            _lateUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.LateUpdateSystems.GetAllSystems().Count > 0).ToArray();
+            _tickUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.TickUpdateSystems.GetAllSystems().Count > 0).ToArray();
 
             for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].InjectPooler();
 
@@ -92,13 +99,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             
             _isInitialized = true;
             
-            SetSharingDataBeforeInitialized(_world, GameShare);
             for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].InitializeGroup();
-            
-            _fixedUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.FixedUpdateSystems.GetAllSystems().Count > 0).ToArray();
-            _updatesGroups = _allGroups.Where(ecsGroup => ecsGroup.UpdateSystems.GetAllSystems().Count > 0).ToArray();
-            _lateUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.LateUpdateSystems.GetAllSystems().Count > 0).ToArray();
-            _tickUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.TickUpdateSystems.GetAllSystems().Count > 0).ToArray();
             
             SetSharingDataAfterInitialized(_world, GameShare);
         }
