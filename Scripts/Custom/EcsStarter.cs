@@ -72,17 +72,17 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             }
             
             SetSharingDataBeforeInitialized(_world, GameShare);
-            
-            _fixedUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.FixedUpdateSystems.GetAllSystems().Count > 0).ToArray();
-            _updatesGroups = _allGroups.Where(ecsGroup => ecsGroup.UpdateSystems.GetAllSystems().Count > 0).ToArray();
-            _lateUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.LateUpdateSystems.GetAllSystems().Count > 0).ToArray();
-            _tickUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.TickUpdateSystems.GetAllSystems().Count > 0).ToArray();
 
             for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].InjectPooler();
 
             SetSharingDataBeforePreInitialized(_world, GameShare);
             
             for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].PreInitGroup();
+            
+            _fixedUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.FixedUpdateSystems.GetAllSystems().Count > 0).ToArray();
+            _updatesGroups = _allGroups.Where(ecsGroup => ecsGroup.UpdateSystems.GetAllSystems().Count > 0).ToArray();
+            _lateUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.LateUpdateSystems.GetAllSystems().Count > 0).ToArray();
+            _tickUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.TickUpdateSystems.GetAllSystems().Count > 0).ToArray();
 
             groups = _allGroups.Select(group => group.GroupContext).ToArray();
         }
