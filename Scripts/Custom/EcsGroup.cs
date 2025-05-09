@@ -75,6 +75,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             gameShare.GetSharedObject(ref Signal);
             GroupName = GetType().Name;
             GroupContext.Name = GroupName;
+            GameShare.AddSharedObject(typeof(TPoolerGroup), Pooler);
             GameShare.AddSharedObject(Pooler.GetType(), Pooler);
             SetSharingData(World, GameShare);
         }
