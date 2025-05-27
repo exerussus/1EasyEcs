@@ -37,7 +37,20 @@ namespace Exerussus._1EasyEcs.Scripts.Core
                 return entity;
             }
 
-            throw new Exception("Пустой филтр");
+            throw new Exception("Пустой фильтр.");
+        }
+        
+        public static int GetRandomEntity(this EcsFilter filter)
+        {
+            var randomValue = UnityEngine.Random.Range(0, filter.GetEntitiesCount());
+            var count = 0;
+            foreach (var entity in filter)
+            {
+                if (count == randomValue) return entity;
+                count++;
+            }
+
+            throw new Exception("Пустой фильтр.");
         }
 
         public static bool HasAny(this EcsFilter filter)
