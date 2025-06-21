@@ -5,7 +5,6 @@ using Exerussus._1Extensions.SignalSystem;
 using Exerussus._1Extensions.SmallFeatures;
 using Leopotam.EcsLite;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
