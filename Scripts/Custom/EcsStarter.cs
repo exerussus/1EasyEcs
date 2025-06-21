@@ -24,17 +24,16 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         private bool _isInitialized;
         
         public virtual GameShare GameShare { get; } = new();
-        public virtual string Name { get; private set; }
-        
+        public EcsGroup[] AllGroups => _allGroups;
+
         protected abstract GameContext GetGameContext(GameShare gameShare); 
         
-        public virtual void PreInitialize()
+        public void PreInitialize()
         {
             if (_isPreInitialized) return;
             _isPreInitialized = true;
             
             _gameContext = GetGameContext(GameShare);
-            Name = GetType().Name;
             _world = new EcsWorld();
             _componenter = new Componenter(_world);
             GameShare.AddSharedObject(_world);
@@ -45,7 +44,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             
             SetSharingDataOnStart(_world, GameShare);
             
-            _allGroups = GetGroups();
+            _allGroups = CreateGroups();
             
             for (int i = 0; i < _allGroups.Length; i++)
             {
@@ -57,6 +56,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             SetSharingDataBeforePreInitialized(_world, GameShare);
             
             for (int i = 0; i < _allGroups.Length; i++) _allGroups[i].PreInitGroup();
+
+            OnPreInitialize();
         }
 
         protected virtual void Start()
@@ -64,7 +65,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             if (autoInitialize) Initialize();
         }
         
-        public virtual void Initialize()
+        public void Initialize()
         {
             if (_isInitialized) return;
             if (!_isPreInitialized) PreInitialize();
@@ -78,10 +79,18 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _updatesGroups = _allGroups.Where(ecsGroup => ecsGroup.UpdateSystems.GetAllSystems().Count > 0).ToArray();
             _lateUpdatesGroups = _allGroups.Where(ecsGroup => ecsGroup.LateUpdateSystems.GetAllSystems().Count > 0).ToArray();
             
+            OnInitialize();
+            
             SetSharingDataAfterInitialized(_world, GameShare);
         }
         
-        protected abstract EcsGroup[] GetGroups();
+        protected abstract EcsGroup[] CreateGroups();
+        
+        /// <summary> Срабатывает после создания групп, пуллеров и систем и их пре-инициализации, но до инициализации. </summary>
+        public virtual void OnPreInitialize() {}
+        /// <summary> Срабатывает после инициализации всех групп, пуллеров и систем. </summary>
+        public virtual void OnInitialize() { }
+        
         /// <summary> Срабатывает до начала создания групп, пуллеров и систем. Полезно для прокидывания данных для групп и пуллеров до их появления. </summary>
         protected abstract void SetSharingDataOnStart(EcsWorld world, GameShare gameShare);
         
@@ -90,7 +99,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         
         /// <summary> Срабатывает после создания групп, пуллеров и систем и их пре-инициализации, но до инициализации. </summary>
         protected virtual void SetSharingDataBeforeInitialized(EcsWorld world, GameShare gameShare) {}
-        /// <summary> Срабатывает после инициализации всех групп, пуллеров и систем. </summary>
+        /// <summary> Срабатывает после инициализации всех групп, пуллеров и систем. Самая крайняя точка инициализации. </summary>
         protected virtual void SetSharingDataAfterInitialized(EcsWorld world, GameShare gameShare) {}
         
         protected virtual void OnDestroy() 

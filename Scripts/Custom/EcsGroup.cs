@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1Extensions.SignalSystem;
 using Exerussus._1Extensions.SmallFeatures;
@@ -25,15 +26,16 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         public IEcsSystems UpdateSystems => _updateSystems;
         public IEcsSystems LateUpdateSystems => _lateUpdateSystems;
         
-        public bool HasFixedUpdates { get; private set; } = true;
-        public bool HasUpdates { get; private set; } = true;
-        public bool HasLateUpdates { get; private set; } = true;
+        public bool HasAnyInitSystems { get; protected set; }
+        public bool HasAnyFixedUpdatesSystems { get; protected set; }
+        public bool HasAnyUpdatesSystems { get; protected set; }
+        public bool HasAnyLateUpdatesSystems { get; protected set; }
         
         protected virtual void SetInitSystems(IEcsSystems initSystems) {}
 
-        protected virtual void SetFixedUpdateSystems(IEcsSystems fixedUpdateSystems) { HasFixedUpdates = false; }
-        protected virtual void SetUpdateSystems(IEcsSystems updateSystems) { HasUpdates = false; }
-        protected virtual void SetLateUpdateSystems(IEcsSystems lateUpdateSystems) { HasLateUpdates = false; }
+        protected virtual void SetFixedUpdateSystems(IEcsSystems fixedUpdateSystems) { HasAnyFixedUpdatesSystems = false; }
+        protected virtual void SetUpdateSystems(IEcsSystems updateSystems) { HasAnyUpdatesSystems = false; }
+        protected virtual void SetLateUpdateSystems(IEcsSystems lateUpdateSystems) { HasAnyLateUpdatesSystems = false; }
 
         public abstract void PreInitComponents(string starterName, GameContext gameContext, GameShare gameShare, EcsWorld world);
         public abstract void InjectPooler();
@@ -43,6 +45,8 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         public abstract void FixedUpdate();
         public abstract void Update();
         public abstract void LateUpdate();
+        public abstract List<IEcsSystem> GetAllSystems();
+        public abstract object GetPooler();
     }
     
     [Serializable]
@@ -91,10 +95,10 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _lateUpdateSystems = new EcsSystems(World, GameShare);
             SetLateUpdateSystems(_lateUpdateSystems);
             
-            InjectSystems(_initSystems);
-            InjectSystems(_fixedUpdateSystems);
-            InjectSystems(_updateSystems);
-            InjectSystems(_lateUpdateSystems);
+            HasAnyInitSystems = InjectSystems(_initSystems);
+            HasAnyFixedUpdatesSystems = InjectSystems(_fixedUpdateSystems);
+            HasAnyUpdatesSystems = InjectSystems(_updateSystems);
+            HasAnyLateUpdatesSystems = InjectSystems(_lateUpdateSystems);
         }
         
         public override void InitializeGroup()
@@ -104,24 +108,36 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
             _updateSystems.Init();
             _lateUpdateSystems.Init();
         }
-
-        private void InjectPoolers()
-        {
-            
-        }
         
-        private void InjectSystems(IEcsSystems systems)
+        private bool InjectSystems(IEcsSystems systems)
         {
+            var hasAnySystem = false;
+            
             foreach (var system in systems.GetAllSystems())
             {
+                hasAnySystem = true;
                 if (system is EasySystem<TPoolerGroup> easySystem)
                 {
                     GameShare.InjectSharedObjects(easySystem);
                     easySystem.PreInit(GameShare, GameContext, World);
                 }
             }
+
+            return hasAnySystem;
         }
 
+        public override List<IEcsSystem> GetAllSystems()
+        {
+            var systems = new List<IEcsSystem>();
+            if (HasAnyInitSystems) systems.AddRange(_initSystems.GetAllSystems());
+            if (HasAnyFixedUpdatesSystems) systems.AddRange(_fixedUpdateSystems.GetAllSystems());
+            if (HasAnyUpdatesSystems) systems.AddRange(_updateSystems.GetAllSystems());
+            if (HasAnyLateUpdatesSystems) systems.AddRange(_lateUpdateSystems.GetAllSystems());
+            return systems;
+        }
+
+        public override object GetPooler() => Pooler;
+        
         protected virtual void SetSharingData(EcsWorld world, GameShare gameShare) { }
         
         public override void OnDestroy() 
