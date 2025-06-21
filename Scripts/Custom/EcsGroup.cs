@@ -3,7 +3,6 @@ using Exerussus._1EasyEcs.Scripts.Core;
 using Exerussus._1Extensions.SignalSystem;
 using Exerussus._1Extensions.SmallFeatures;
 using Leopotam.EcsLite;
-using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Custom
 {
@@ -25,10 +24,10 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         public IEcsSystems FixedUpdateSystems => _fixedUpdateSystems;
         public IEcsSystems UpdateSystems => _updateSystems;
         public IEcsSystems LateUpdateSystems => _lateUpdateSystems;
+        
         public bool HasFixedUpdates { get; private set; } = true;
         public bool HasUpdates { get; private set; } = true;
         public bool HasLateUpdates { get; private set; } = true;
-        public bool HasTickUpdates { get; private set; } = true;
         
         protected virtual void SetInitSystems(IEcsSystems initSystems) {}
 
