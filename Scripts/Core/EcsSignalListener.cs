@@ -12,11 +12,11 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private Action<T1> _signalSubscribeT1;
         
         
-        public override void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext, EcsWorld world)
+        public override void PreInit(GameShare gameShare, GameContext gameContext, EcsWorld world)
         {
-            base.PreInit(gameShare, gameContext, groupContext, world);
+            base.PreInit(gameShare, gameContext, world);
             
-            _signalSubscribeT1 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
+            _signalSubscribeT1 = OnSignal;
             
             SubscribeSignal(_signalSubscribeT1);
         }
@@ -37,12 +37,12 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private Action<T1> _signalSubscribeT1;
         private Action<T2> _signalSubscribeT2;
         
-        public override void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext, EcsWorld world)
+        public override void PreInit(GameShare gameShare, GameContext gameContext, EcsWorld world)
         {
-            base.PreInit(gameShare, gameContext, groupContext, world);
+            base.PreInit(gameShare, gameContext, world);
             
-            _signalSubscribeT1 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT2 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
+            _signalSubscribeT1 = OnSignal;
+            _signalSubscribeT2 = OnSignal;
             
             SubscribeSignal(_signalSubscribeT1);
             SubscribeSignal(_signalSubscribeT2);
@@ -68,13 +68,13 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private Action<T2> _signalSubscribeT2;
         private Action<T3> _signalSubscribeT3;
         
-        public override void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext, EcsWorld world)
+        public override void PreInit(GameShare gameShare, GameContext gameContext, EcsWorld world)
         {
-            base.PreInit(gameShare, gameContext, groupContext, world);
+            base.PreInit(gameShare, gameContext, world);
             
-            _signalSubscribeT1 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT2 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT3 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
+            _signalSubscribeT1 = OnSignal;
+            _signalSubscribeT2 = OnSignal;
+            _signalSubscribeT3 = OnSignal;
             
             SubscribeSignal(_signalSubscribeT1);
             SubscribeSignal(_signalSubscribeT2);
@@ -105,14 +105,14 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private Action<T3> _signalSubscribeT3;
         private Action<T4> _signalSubscribeT4;
         
-        public override void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext, EcsWorld world)
+        public override void PreInit(GameShare gameShare, GameContext gameContext, EcsWorld world)
         {
-            base.PreInit(gameShare, gameContext, groupContext, world);
+            base.PreInit(gameShare, gameContext, world);
             
-            _signalSubscribeT1 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT2 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT3 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT4 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
+            _signalSubscribeT1 = OnSignal;
+            _signalSubscribeT2 = OnSignal;
+            _signalSubscribeT3 = OnSignal;
+            _signalSubscribeT4 = OnSignal;
             
             SubscribeSignal(_signalSubscribeT1);
             SubscribeSignal(_signalSubscribeT2);
@@ -148,15 +148,15 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private Action<T4> _signalSubscribeT4;
         private Action<T5> _signalSubscribeT5;
         
-        public override void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext, EcsWorld world)
+        public override void PreInit(GameShare gameShare, GameContext gameContext, EcsWorld world)
         {
-            base.PreInit(gameShare, gameContext, groupContext, world);
+            base.PreInit(gameShare, gameContext, world);
             
-            _signalSubscribeT1 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT2 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT3 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT4 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT5 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
+            _signalSubscribeT1 = OnSignal;
+            _signalSubscribeT2 = OnSignal;
+            _signalSubscribeT3 = OnSignal;
+            _signalSubscribeT4 = OnSignal;
+            _signalSubscribeT5 = OnSignal;
             
             SubscribeSignal(_signalSubscribeT1);
             SubscribeSignal(_signalSubscribeT2);
@@ -197,16 +197,16 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private Action<T5> _signalSubscribeT5;
         private Action<T6> _signalSubscribeT6;
         
-        public override void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext, EcsWorld world)
+        public override void PreInit(GameShare gameShare, GameContext gameContext, EcsWorld world)
         {
-            base.PreInit(gameShare, gameContext, groupContext, world);
+            base.PreInit(gameShare, gameContext, world);
             
-            _signalSubscribeT1 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT2 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT3 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT4 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT5 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT6 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
+            _signalSubscribeT1 = OnSignal;
+            _signalSubscribeT2 = OnSignal;
+            _signalSubscribeT3 = OnSignal;
+            _signalSubscribeT4 = OnSignal;
+            _signalSubscribeT5 = OnSignal;
+            _signalSubscribeT6 = OnSignal;
             
             SubscribeSignal(_signalSubscribeT1);
             SubscribeSignal(_signalSubscribeT2);
@@ -252,17 +252,17 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private Action<T6> _signalSubscribeT6;
         private Action<T7> _signalSubscribeT7;
         
-        public override void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext, EcsWorld world)
+        public override void PreInit(GameShare gameShare, GameContext gameContext, EcsWorld world)
         {
-            base.PreInit(gameShare, gameContext, groupContext, world);
+            base.PreInit(gameShare, gameContext, world);
             
-            _signalSubscribeT1 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT2 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT3 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT4 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT5 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT6 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT7 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
+            _signalSubscribeT1 = OnSignal;
+            _signalSubscribeT2 = OnSignal;
+            _signalSubscribeT3 = OnSignal;
+            _signalSubscribeT4 = OnSignal;
+            _signalSubscribeT5 = OnSignal;
+            _signalSubscribeT6 = OnSignal;
+            _signalSubscribeT7 = OnSignal;
             
             SubscribeSignal(_signalSubscribeT1);
             SubscribeSignal(_signalSubscribeT2);
@@ -313,18 +313,18 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private Action<T7> _signalSubscribeT7;
         private Action<T8> _signalSubscribeT8;
         
-        public override void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext, EcsWorld world)
+        public override void PreInit(GameShare gameShare, GameContext gameContext, EcsWorld world)
         {
-            base.PreInit(gameShare, gameContext, groupContext, world);
+            base.PreInit(gameShare, gameContext, world);
             
-            _signalSubscribeT1 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT2 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT3 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT4 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT5 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT6 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT7 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT8 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
+            _signalSubscribeT1 = OnSignal;
+            _signalSubscribeT2 = OnSignal;
+            _signalSubscribeT3 = OnSignal;
+            _signalSubscribeT4 = OnSignal;
+            _signalSubscribeT5 = OnSignal;
+            _signalSubscribeT6 = OnSignal;
+            _signalSubscribeT7 = OnSignal;
+            _signalSubscribeT8 = OnSignal;
             
             SubscribeSignal(_signalSubscribeT1);
             SubscribeSignal(_signalSubscribeT2);
@@ -380,19 +380,19 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private Action<T8> _signalSubscribeT8;
         private Action<T9> _signalSubscribeT9;
         
-        public override void PreInit(GameShare gameShare, GameContext gameContext, GroupContext groupContext, EcsWorld world)
+        public override void PreInit(GameShare gameShare, GameContext gameContext, EcsWorld world)
         {
-            base.PreInit(gameShare, gameContext, groupContext, world);
+            base.PreInit(gameShare, gameContext, world);
             
-            _signalSubscribeT1 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT2 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT3 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT4 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT5 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT6 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT7 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT8 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
-            _signalSubscribeT9 = data => { if (GroupContext.IsEnabled) OnSignal(data); };
+            _signalSubscribeT1 = OnSignal;
+            _signalSubscribeT2 = OnSignal;
+            _signalSubscribeT3 = OnSignal;
+            _signalSubscribeT4 = OnSignal;
+            _signalSubscribeT5 = OnSignal;
+            _signalSubscribeT6 = OnSignal;
+            _signalSubscribeT7 = OnSignal;
+            _signalSubscribeT8 = OnSignal;
+            _signalSubscribeT9 = OnSignal;
             
             SubscribeSignal(_signalSubscribeT1);
             SubscribeSignal(_signalSubscribeT2);
