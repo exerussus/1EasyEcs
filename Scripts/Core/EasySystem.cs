@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public abstract class EasySystem<TPoolerGroup> : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem
+    public abstract class EasySystem<TPoolerGroup> : IEcsInitSystem, IEcsRunSystem
         where TPoolerGroup : IGroupPooler
     {
         private bool _isInitialized = false;
@@ -65,11 +65,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         protected virtual void Initialize() {}
         protected virtual void Update() {}
-
-        public virtual void Destroy(IEcsSystems systems)
-        {
-            
-        }
     }
 
     public enum UpdateType

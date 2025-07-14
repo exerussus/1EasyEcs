@@ -6,7 +6,7 @@ using Leopotam.EcsLite;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public abstract class EcsSignalListener<TPooler, T1> : EasySystem<TPooler> where TPooler : IGroupPooler
+    public abstract class EcsSignalListener<TPooler, T1> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
         where T1 : struct
     {
         private Action<T1> _signalSubscribeT1;
@@ -21,16 +21,18 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             SubscribeSignal(_signalSubscribeT1);
         }
 
-        public override void Destroy(IEcsSystems systems)
+        public void Destroy(IEcsSystems systems)
         {
-            base.Destroy(systems);
             UnsubscribeSignal(_signalSubscribeT1);
+            OnDestroy();
         }
+
+        public virtual void OnDestroy() { } 
         
         protected abstract void OnSignal(T1 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2> : EasySystem<TPooler> where TPooler : IGroupPooler
+    public abstract class EcsSignalListener<TPooler, T1, T2> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
         where T1 : struct
         where T2 : struct
     {
@@ -48,18 +50,20 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             SubscribeSignal(_signalSubscribeT2);
         }
 
-        public override void Destroy(IEcsSystems systems)
+        public void Destroy(IEcsSystems systems)
         {
-            base.Destroy(systems);
             UnsubscribeSignal(_signalSubscribeT1);
             UnsubscribeSignal(_signalSubscribeT2);
+            OnDestroy();
         }
+        
+        public virtual void OnDestroy() { } 
         
         protected abstract void OnSignal(T1 data);
         protected abstract void OnSignal(T2 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3> : EasySystem<TPooler> where TPooler : IGroupPooler
+    public abstract class EcsSignalListener<TPooler, T1, T2, T3> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -81,20 +85,22 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             SubscribeSignal(_signalSubscribeT3);
         }
 
-        public override void Destroy(IEcsSystems systems)
+        public void Destroy(IEcsSystems systems)
         {
-            base.Destroy(systems);
             UnsubscribeSignal(_signalSubscribeT1);
             UnsubscribeSignal(_signalSubscribeT2);
             UnsubscribeSignal(_signalSubscribeT3);
+            OnDestroy();
         }
+        
+        public virtual void OnDestroy() { } 
         
         protected abstract void OnSignal(T1 data);
         protected abstract void OnSignal(T2 data);
         protected abstract void OnSignal(T3 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4> : EasySystem<TPooler> where TPooler : IGroupPooler
+    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -120,22 +126,23 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             SubscribeSignal(_signalSubscribeT4);
         }
 
-        public override void Destroy(IEcsSystems systems)
+        public void Destroy(IEcsSystems systems)
         {
-            base.Destroy(systems);
             UnsubscribeSignal(_signalSubscribeT1);
             UnsubscribeSignal(_signalSubscribeT2);
             UnsubscribeSignal(_signalSubscribeT3);
             UnsubscribeSignal(_signalSubscribeT4);
+            OnDestroy();
         }
         
+        public virtual void OnDestroy() { } 
         protected abstract void OnSignal(T1 data);
         protected abstract void OnSignal(T2 data);
         protected abstract void OnSignal(T3 data);
         protected abstract void OnSignal(T4 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5> : EasySystem<TPooler> where TPooler : IGroupPooler
+    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -165,16 +172,17 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             SubscribeSignal(_signalSubscribeT5);
         }
 
-        public override void Destroy(IEcsSystems systems)
+        public void Destroy(IEcsSystems systems)
         {
-            base.Destroy(systems);
             UnsubscribeSignal(_signalSubscribeT1);
             UnsubscribeSignal(_signalSubscribeT2);
             UnsubscribeSignal(_signalSubscribeT3);
             UnsubscribeSignal(_signalSubscribeT4);
             UnsubscribeSignal(_signalSubscribeT5);
+            OnDestroy();
         }
         
+        public virtual void OnDestroy() { } 
         protected abstract void OnSignal(T1 data);
         protected abstract void OnSignal(T2 data);
         protected abstract void OnSignal(T3 data);
@@ -182,7 +190,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T5 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6> : EasySystem<TPooler> where TPooler : IGroupPooler
+    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -216,16 +224,18 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             SubscribeSignal(_signalSubscribeT6);
         }
 
-        public override void Destroy(IEcsSystems systems)
+        public void Destroy(IEcsSystems systems)
         {
-            base.Destroy(systems);
             UnsubscribeSignal(_signalSubscribeT1);
             UnsubscribeSignal(_signalSubscribeT2);
             UnsubscribeSignal(_signalSubscribeT3);
             UnsubscribeSignal(_signalSubscribeT4);
             UnsubscribeSignal(_signalSubscribeT5);
             UnsubscribeSignal(_signalSubscribeT6);
+            OnDestroy();
         }
+        
+        public virtual void OnDestroy() { } 
         
         protected abstract void OnSignal(T1 data);
         protected abstract void OnSignal(T2 data);
@@ -235,7 +245,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T6 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6, T7> : EasySystem<TPooler> where TPooler : IGroupPooler
+    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6, T7> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -273,9 +283,8 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             SubscribeSignal(_signalSubscribeT7);
         }
 
-        public override void Destroy(IEcsSystems systems)
+        public void Destroy(IEcsSystems systems)
         {
-            base.Destroy(systems);
             UnsubscribeSignal(_signalSubscribeT1);
             UnsubscribeSignal(_signalSubscribeT2);
             UnsubscribeSignal(_signalSubscribeT3);
@@ -283,8 +292,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             UnsubscribeSignal(_signalSubscribeT5);
             UnsubscribeSignal(_signalSubscribeT6);
             UnsubscribeSignal(_signalSubscribeT7);
+            OnDestroy();
         }
         
+        public virtual void OnDestroy() { } 
         protected abstract void OnSignal(T1 data);
         protected abstract void OnSignal(T2 data);
         protected abstract void OnSignal(T3 data);
@@ -294,7 +305,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T7 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6, T7, T8> : EasySystem<TPooler> where TPooler : IGroupPooler
+    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6, T7, T8> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -336,9 +347,8 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             SubscribeSignal(_signalSubscribeT8);
         }
 
-        public override void Destroy(IEcsSystems systems)
+        public void Destroy(IEcsSystems systems)
         {
-            base.Destroy(systems);
             UnsubscribeSignal(_signalSubscribeT1);
             UnsubscribeSignal(_signalSubscribeT2);
             UnsubscribeSignal(_signalSubscribeT3);
@@ -347,7 +357,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             UnsubscribeSignal(_signalSubscribeT6);
             UnsubscribeSignal(_signalSubscribeT7);
             UnsubscribeSignal(_signalSubscribeT8);
+            OnDestroy();
         }
+        
+        public virtual void OnDestroy() { } 
         
         protected abstract void OnSignal(T1 data);
         protected abstract void OnSignal(T2 data);
@@ -359,7 +372,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T8 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6, T7, T8, T9> : EasySystem<TPooler> where TPooler : IGroupPooler
+    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6, T7, T8, T9> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -405,9 +418,8 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             SubscribeSignal(_signalSubscribeT9);
         }
 
-        public override void Destroy(IEcsSystems systems)
+        public void Destroy(IEcsSystems systems)
         {
-            base.Destroy(systems);
             UnsubscribeSignal(_signalSubscribeT1);
             UnsubscribeSignal(_signalSubscribeT2);
             UnsubscribeSignal(_signalSubscribeT3);
@@ -417,8 +429,10 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             UnsubscribeSignal(_signalSubscribeT7);
             UnsubscribeSignal(_signalSubscribeT8);
             UnsubscribeSignal(_signalSubscribeT9);
+            OnDestroy();
         }
         
+        public virtual void OnDestroy() { } 
         protected abstract void OnSignal(T1 data);
         protected abstract void OnSignal(T2 data);
         protected abstract void OnSignal(T3 data);
