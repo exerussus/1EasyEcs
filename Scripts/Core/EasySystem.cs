@@ -2,7 +2,7 @@
 using System;
 using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
-using Exerussus._1Extensions.SmallFeatures;
+using Exerussus.GameSharing.Runtime;
 using Leopotam.EcsLite;
 using UnityEngine;
 

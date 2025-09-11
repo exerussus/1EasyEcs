@@ -1,7 +1,7 @@
 ﻿
 using System;
 using Exerussus._1EasyEcs.Scripts.Custom;
-using Exerussus._1Extensions.SmallFeatures;
+using Exerussus.GameSharing.Runtime;
 using Leopotam.EcsLite;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
