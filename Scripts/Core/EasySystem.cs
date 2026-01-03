@@ -1,20 +1,16 @@
 ﻿
-using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
 using Exerussus.GameSharing.Runtime;
 using Leopotam.EcsLite;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public abstract class EasySystem<TPoolerGroup> : IEcsInitSystem, IEcsRunSystem
-        where TPoolerGroup : IGroupPooler
+    public abstract class EasySystem : IEcsInitSystem, IEcsRunSystem
     {
         private bool _isInitialized = false;
+        protected EcsWorld World { get; private set; }
         protected GameContext GameContext { get; private set; }
         private GameShare _gameShare;
-        protected EcsWorld World { get; private set; }
-        protected Componenter Componenter;
-        protected TPoolerGroup Pooler;
         private Signal _signal;
         public float DeltaTime { get; private set; }
         public float Time { get; private set; }
@@ -30,9 +26,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             World = world;
             GameContext = gameContext;
             _gameShare = gameShare;
-            _gameShare.GetSharedObject(ref Componenter);
             _gameShare.GetSharedObject(ref _signal);
-            Pooler = _gameShare.GetSharedObject<TPoolerGroup>();
 
             _isInitialized = true;
         }

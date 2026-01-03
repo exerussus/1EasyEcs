@@ -1,12 +1,11 @@
 ﻿
 using System;
-using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus.GameSharing.Runtime;
 using Leopotam.EcsLite;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
-    public abstract class EcsSignalListener<TPooler, T1> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
+    public abstract class EcsSignalListener<T1> : EasySystem, IEcsDestroySystem
         where T1 : struct
     {
         private Action<T1> _signalSubscribeT1;
@@ -32,7 +31,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T1 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
+    public abstract class EcsSignalListener< T1, T2> : EasySystem, IEcsDestroySystem
         where T1 : struct
         where T2 : struct
     {
@@ -63,7 +62,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T2 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
+    public abstract class EcsSignalListener< T1, T2, T3> : EasySystem, IEcsDestroySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -100,7 +99,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T3 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
+    public abstract class EcsSignalListener< T1, T2, T3, T4> : EasySystem, IEcsDestroySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -142,7 +141,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T4 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
+    public abstract class EcsSignalListener< T1, T2, T3, T4, T5> : EasySystem, IEcsDestroySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -190,7 +189,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T5 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
+    public abstract class EcsSignalListener< T1, T2, T3, T4, T5, T6> : EasySystem, IEcsDestroySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -245,7 +244,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T6 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6, T7> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
+    public abstract class EcsSignalListener< T1, T2, T3, T4, T5, T6, T7> : EasySystem, IEcsDestroySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -305,7 +304,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T7 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6, T7, T8> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
+    public abstract class EcsSignalListener< T1, T2, T3, T4, T5, T6, T7, T8> : EasySystem, IEcsDestroySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
@@ -372,7 +371,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected abstract void OnSignal(T8 data);
     }
     
-    public abstract class EcsSignalListener<TPooler, T1, T2, T3, T4, T5, T6, T7, T8, T9> : EasySystem<TPooler>, IEcsDestroySystem where TPooler : IGroupPooler
+    public abstract class EcsSignalListener< T1, T2, T3, T4, T5, T6, T7, T8, T9> : EasySystem, IEcsDestroySystem
         where T1 : struct
         where T2 : struct
         where T3 : struct
