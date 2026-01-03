@@ -18,12 +18,12 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             
             _signalSubscribeT1 = OnSignal;
             
-            SubscribeSignal(_signalSubscribeT1);
+            Signal.Subscribe(_signalSubscribeT1);
         }
 
         public void Destroy(IEcsSystems systems)
         {
-            UnsubscribeSignal(_signalSubscribeT1);
+            Signal?.Unsubscribe(_signalSubscribeT1);
             OnDestroy();
         }
 
@@ -46,14 +46,14 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _signalSubscribeT1 = OnSignal;
             _signalSubscribeT2 = OnSignal;
             
-            SubscribeSignal(_signalSubscribeT1);
-            SubscribeSignal(_signalSubscribeT2);
+            Signal.Subscribe(_signalSubscribeT1);
+            Signal.Subscribe(_signalSubscribeT2);
         }
 
         public void Destroy(IEcsSystems systems)
         {
-            UnsubscribeSignal(_signalSubscribeT1);
-            UnsubscribeSignal(_signalSubscribeT2);
+            Signal?.Unsubscribe(_signalSubscribeT1);
+            Signal?.Unsubscribe(_signalSubscribeT2);
             OnDestroy();
         }
         
@@ -80,16 +80,16 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _signalSubscribeT2 = OnSignal;
             _signalSubscribeT3 = OnSignal;
             
-            SubscribeSignal(_signalSubscribeT1);
-            SubscribeSignal(_signalSubscribeT2);
-            SubscribeSignal(_signalSubscribeT3);
+            Signal.Subscribe(_signalSubscribeT1);
+            Signal.Subscribe(_signalSubscribeT2);
+            Signal.Subscribe(_signalSubscribeT3);
         }
 
         public void Destroy(IEcsSystems systems)
         {
-            UnsubscribeSignal(_signalSubscribeT1);
-            UnsubscribeSignal(_signalSubscribeT2);
-            UnsubscribeSignal(_signalSubscribeT3);
+            Signal?.Unsubscribe(_signalSubscribeT1);
+            Signal?.Unsubscribe(_signalSubscribeT2);
+            Signal?.Unsubscribe(_signalSubscribeT3);
             OnDestroy();
         }
         
@@ -120,18 +120,18 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _signalSubscribeT3 = OnSignal;
             _signalSubscribeT4 = OnSignal;
             
-            SubscribeSignal(_signalSubscribeT1);
-            SubscribeSignal(_signalSubscribeT2);
-            SubscribeSignal(_signalSubscribeT3);
-            SubscribeSignal(_signalSubscribeT4);
+            Signal.Subscribe(_signalSubscribeT1);
+            Signal.Subscribe(_signalSubscribeT2);
+            Signal.Subscribe(_signalSubscribeT3);
+            Signal.Subscribe(_signalSubscribeT4);
         }
 
         public void Destroy(IEcsSystems systems)
         {
-            UnsubscribeSignal(_signalSubscribeT1);
-            UnsubscribeSignal(_signalSubscribeT2);
-            UnsubscribeSignal(_signalSubscribeT3);
-            UnsubscribeSignal(_signalSubscribeT4);
+            Signal?.Unsubscribe(_signalSubscribeT1);
+            Signal?.Unsubscribe(_signalSubscribeT2);
+            Signal?.Unsubscribe(_signalSubscribeT3);
+            Signal?.Unsubscribe(_signalSubscribeT4);
             OnDestroy();
         }
         
@@ -165,20 +165,20 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _signalSubscribeT4 = OnSignal;
             _signalSubscribeT5 = OnSignal;
             
-            SubscribeSignal(_signalSubscribeT1);
-            SubscribeSignal(_signalSubscribeT2);
-            SubscribeSignal(_signalSubscribeT3);
-            SubscribeSignal(_signalSubscribeT4);
-            SubscribeSignal(_signalSubscribeT5);
+            Signal.Subscribe(_signalSubscribeT1);
+            Signal.Subscribe(_signalSubscribeT2);
+            Signal.Subscribe(_signalSubscribeT3);
+            Signal.Subscribe(_signalSubscribeT4);
+            Signal.Subscribe(_signalSubscribeT5);
         }
 
         public void Destroy(IEcsSystems systems)
         {
-            UnsubscribeSignal(_signalSubscribeT1);
-            UnsubscribeSignal(_signalSubscribeT2);
-            UnsubscribeSignal(_signalSubscribeT3);
-            UnsubscribeSignal(_signalSubscribeT4);
-            UnsubscribeSignal(_signalSubscribeT5);
+            Signal?.Unsubscribe(_signalSubscribeT1);
+            Signal?.Unsubscribe(_signalSubscribeT2);
+            Signal?.Unsubscribe(_signalSubscribeT3);
+            Signal?.Unsubscribe(_signalSubscribeT4);
+            Signal?.Unsubscribe(_signalSubscribeT5);
             OnDestroy();
         }
         
@@ -216,22 +216,22 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _signalSubscribeT5 = OnSignal;
             _signalSubscribeT6 = OnSignal;
             
-            SubscribeSignal(_signalSubscribeT1);
-            SubscribeSignal(_signalSubscribeT2);
-            SubscribeSignal(_signalSubscribeT3);
-            SubscribeSignal(_signalSubscribeT4);
-            SubscribeSignal(_signalSubscribeT5);
-            SubscribeSignal(_signalSubscribeT6);
+            Signal.Subscribe(_signalSubscribeT1);
+            Signal.Subscribe(_signalSubscribeT2);
+            Signal.Subscribe(_signalSubscribeT3);
+            Signal.Subscribe(_signalSubscribeT4);
+            Signal.Subscribe(_signalSubscribeT5);
+            Signal.Subscribe(_signalSubscribeT6);
         }
 
         public void Destroy(IEcsSystems systems)
         {
-            UnsubscribeSignal(_signalSubscribeT1);
-            UnsubscribeSignal(_signalSubscribeT2);
-            UnsubscribeSignal(_signalSubscribeT3);
-            UnsubscribeSignal(_signalSubscribeT4);
-            UnsubscribeSignal(_signalSubscribeT5);
-            UnsubscribeSignal(_signalSubscribeT6);
+            Signal?.Unsubscribe(_signalSubscribeT1);
+            Signal?.Unsubscribe(_signalSubscribeT2);
+            Signal?.Unsubscribe(_signalSubscribeT3);
+            Signal?.Unsubscribe(_signalSubscribeT4);
+            Signal?.Unsubscribe(_signalSubscribeT5);
+            Signal?.Unsubscribe(_signalSubscribeT6);
             OnDestroy();
         }
         
@@ -274,24 +274,24 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _signalSubscribeT6 = OnSignal;
             _signalSubscribeT7 = OnSignal;
             
-            SubscribeSignal(_signalSubscribeT1);
-            SubscribeSignal(_signalSubscribeT2);
-            SubscribeSignal(_signalSubscribeT3);
-            SubscribeSignal(_signalSubscribeT4);
-            SubscribeSignal(_signalSubscribeT5);
-            SubscribeSignal(_signalSubscribeT6);
-            SubscribeSignal(_signalSubscribeT7);
+            Signal.Subscribe(_signalSubscribeT1);
+            Signal.Subscribe(_signalSubscribeT2);
+            Signal.Subscribe(_signalSubscribeT3);
+            Signal.Subscribe(_signalSubscribeT4);
+            Signal.Subscribe(_signalSubscribeT5);
+            Signal.Subscribe(_signalSubscribeT6);
+            Signal.Subscribe(_signalSubscribeT7);
         }
 
         public void Destroy(IEcsSystems systems)
         {
-            UnsubscribeSignal(_signalSubscribeT1);
-            UnsubscribeSignal(_signalSubscribeT2);
-            UnsubscribeSignal(_signalSubscribeT3);
-            UnsubscribeSignal(_signalSubscribeT4);
-            UnsubscribeSignal(_signalSubscribeT5);
-            UnsubscribeSignal(_signalSubscribeT6);
-            UnsubscribeSignal(_signalSubscribeT7);
+            Signal?.Unsubscribe(_signalSubscribeT1);
+            Signal?.Unsubscribe(_signalSubscribeT2);
+            Signal?.Unsubscribe(_signalSubscribeT3);
+            Signal?.Unsubscribe(_signalSubscribeT4);
+            Signal?.Unsubscribe(_signalSubscribeT5);
+            Signal?.Unsubscribe(_signalSubscribeT6);
+            Signal?.Unsubscribe(_signalSubscribeT7);
             OnDestroy();
         }
         
@@ -337,26 +337,26 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _signalSubscribeT7 = OnSignal;
             _signalSubscribeT8 = OnSignal;
             
-            SubscribeSignal(_signalSubscribeT1);
-            SubscribeSignal(_signalSubscribeT2);
-            SubscribeSignal(_signalSubscribeT3);
-            SubscribeSignal(_signalSubscribeT4);
-            SubscribeSignal(_signalSubscribeT5);
-            SubscribeSignal(_signalSubscribeT6);
-            SubscribeSignal(_signalSubscribeT7);
-            SubscribeSignal(_signalSubscribeT8);
+            Signal.Subscribe(_signalSubscribeT1);
+            Signal.Subscribe(_signalSubscribeT2);
+            Signal.Subscribe(_signalSubscribeT3);
+            Signal.Subscribe(_signalSubscribeT4);
+            Signal.Subscribe(_signalSubscribeT5);
+            Signal.Subscribe(_signalSubscribeT6);
+            Signal.Subscribe(_signalSubscribeT7);
+            Signal.Subscribe(_signalSubscribeT8);
         }
 
         public void Destroy(IEcsSystems systems)
         {
-            UnsubscribeSignal(_signalSubscribeT1);
-            UnsubscribeSignal(_signalSubscribeT2);
-            UnsubscribeSignal(_signalSubscribeT3);
-            UnsubscribeSignal(_signalSubscribeT4);
-            UnsubscribeSignal(_signalSubscribeT5);
-            UnsubscribeSignal(_signalSubscribeT6);
-            UnsubscribeSignal(_signalSubscribeT7);
-            UnsubscribeSignal(_signalSubscribeT8);
+            Signal?.Unsubscribe(_signalSubscribeT1);
+            Signal?.Unsubscribe(_signalSubscribeT2);
+            Signal?.Unsubscribe(_signalSubscribeT3);
+            Signal?.Unsubscribe(_signalSubscribeT4);
+            Signal?.Unsubscribe(_signalSubscribeT5);
+            Signal?.Unsubscribe(_signalSubscribeT6);
+            Signal?.Unsubscribe(_signalSubscribeT7);
+            Signal?.Unsubscribe(_signalSubscribeT8);
             OnDestroy();
         }
         
@@ -407,28 +407,28 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _signalSubscribeT8 = OnSignal;
             _signalSubscribeT9 = OnSignal;
             
-            SubscribeSignal(_signalSubscribeT1);
-            SubscribeSignal(_signalSubscribeT2);
-            SubscribeSignal(_signalSubscribeT3);
-            SubscribeSignal(_signalSubscribeT4);
-            SubscribeSignal(_signalSubscribeT5);
-            SubscribeSignal(_signalSubscribeT6);
-            SubscribeSignal(_signalSubscribeT7);
-            SubscribeSignal(_signalSubscribeT8);
-            SubscribeSignal(_signalSubscribeT9);
+            Signal.Subscribe(_signalSubscribeT1);
+            Signal.Subscribe(_signalSubscribeT2);
+            Signal.Subscribe(_signalSubscribeT3);
+            Signal.Subscribe(_signalSubscribeT4);
+            Signal.Subscribe(_signalSubscribeT5);
+            Signal.Subscribe(_signalSubscribeT6);
+            Signal.Subscribe(_signalSubscribeT7);
+            Signal.Subscribe(_signalSubscribeT8);
+            Signal.Subscribe(_signalSubscribeT9);
         }
 
         public void Destroy(IEcsSystems systems)
         {
-            UnsubscribeSignal(_signalSubscribeT1);
-            UnsubscribeSignal(_signalSubscribeT2);
-            UnsubscribeSignal(_signalSubscribeT3);
-            UnsubscribeSignal(_signalSubscribeT4);
-            UnsubscribeSignal(_signalSubscribeT5);
-            UnsubscribeSignal(_signalSubscribeT6);
-            UnsubscribeSignal(_signalSubscribeT7);
-            UnsubscribeSignal(_signalSubscribeT8);
-            UnsubscribeSignal(_signalSubscribeT9);
+            Signal?.Unsubscribe(_signalSubscribeT1);
+            Signal?.Unsubscribe(_signalSubscribeT2);
+            Signal?.Unsubscribe(_signalSubscribeT3);
+            Signal?.Unsubscribe(_signalSubscribeT4);
+            Signal?.Unsubscribe(_signalSubscribeT5);
+            Signal?.Unsubscribe(_signalSubscribeT6);
+            Signal?.Unsubscribe(_signalSubscribeT7);
+            Signal?.Unsubscribe(_signalSubscribeT8);
+            Signal?.Unsubscribe(_signalSubscribeT9);
             OnDestroy();
         }
         

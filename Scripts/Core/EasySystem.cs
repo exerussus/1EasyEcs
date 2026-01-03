@@ -1,10 +1,8 @@
 ﻿
-using System;
 using Exerussus._1EasyEcs.Scripts.Custom;
 using Exerussus._1Extensions.SignalSystem;
 using Exerussus.GameSharing.Runtime;
 using Leopotam.EcsLite;
-using UnityEngine;
 
 namespace Exerussus._1EasyEcs.Scripts.Core
 {
@@ -19,6 +17,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         protected TPoolerGroup Pooler;
         private Signal _signal;
         public float DeltaTime { get; private set; }
+        public float Time { get; private set; }
         public Signal Signal => _signal;
         public GameShare GameShare => _gameShare;
         public virtual float UpdateDelay { get; set; }
@@ -38,40 +37,23 @@ namespace Exerussus._1EasyEcs.Scripts.Core
             _isInitialized = true;
         }
 
-        public void SubscribeSignal<T>(Action<T> action) where T : struct
-        {
-            _signal.Subscribe(action);
-        }
-
-        public void UnsubscribeSignal<T>(Action<T> action) where T : struct
-        {
-            _signal?.Unsubscribe(action);
-        }
-
         public void Init(IEcsSystems systems)
         {
-            World = systems.GetWorld();
             Initialize();
         }
 
         public void Run(IEcsSystems systems)
         {
-            if (NextUpdateTime > Time.time) return;
-            NextUpdateTime = UpdateDelay + Time.time;
-            DeltaTime = Time.time - LastUpdateTime;
+            Time = UnityEngine.Time.time;
+            
+            if (NextUpdateTime > Time) return;
+            NextUpdateTime = Time + UpdateDelay;
+            DeltaTime = Time - LastUpdateTime;
             Update();
-            LastUpdateTime = Time.time;
+            LastUpdateTime = Time;
         }
 
         protected virtual void Initialize() {}
         protected virtual void Update() {}
-    }
-
-    public enum UpdateType
-    {
-        Update,
-        FixedUpdate,
-        LateUpdate,
-        TickUpdate
     }
 }
