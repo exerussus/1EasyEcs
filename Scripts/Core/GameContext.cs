@@ -9,5 +9,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         public float GameTimeScale = 1f;
         public float FixedUpdateDelta;
         public float UpdateDelta;
+        public float Time;
     }
 }

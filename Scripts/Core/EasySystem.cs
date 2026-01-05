@@ -13,7 +13,7 @@ namespace Exerussus._1EasyEcs.Scripts.Core
         private GameShare _gameShare;
         private Signal _signal;
         public float DeltaTime { get; private set; }
-        public float Time { get; private set; }
+        public float Time => GameContext.Time;
         public Signal Signal => _signal;
         public GameShare GameShare => _gameShare;
         public virtual float UpdateDelay { get; set; }
@@ -38,8 +38,6 @@ namespace Exerussus._1EasyEcs.Scripts.Core
 
         public void Run(IEcsSystems systems)
         {
-            Time = UnityEngine.Time.time;
-            
             if (NextUpdateTime > Time) return;
             NextUpdateTime = Time + UpdateDelay;
             DeltaTime = Time - LastUpdateTime;

@@ -118,6 +118,7 @@ namespace Exerussus._1EasyEcs.Scripts.Custom
         public virtual void Update()
         {
             if (!_isInitialized) return;
+            _gameContext.Time = Time.time;
             _gameContext.UpdateDelta = Time.deltaTime;
             for (int i = 0; i < _updatesGroups.Length; i++) _updatesGroups[i].Update();
         }
